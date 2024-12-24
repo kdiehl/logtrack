@@ -1,4 +1,4 @@
-# ⏰ Time Tracker
+# ⏰ Tracklog
 
 Time Tracker is a web application designed to help users manage and track their time efficiently. This project is built using React, TypeScript, and Dexie for IndexedDB management.
 
