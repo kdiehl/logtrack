@@ -16,13 +16,11 @@ Time Tracker is a web application designed to help users manage and track their 
 
 - **⏱️ Time Tracking**: Track time spent on various tasks.
 - **📝 Task Management**: Create, update, and delete tasks.
-- **📊 Reports**: Generate reports based on tracked time.
+- **📊 Reports**: Generate reports based on tracked time. (coming soon)
 - **🌙 Dark Mode**: Switch between light and dark themes.
 - **📶 Offline Support**: Works offline using IndexedDB and Workbox.
 - **📦 Precaching**: Automatically cache assets during the service worker installation.
-- **⚡ Runtime Caching**: Define caching strategies for network requests.
-- **🔄 Background Sync**: Retry failed requests when the network is back online.
-
+- 
 ## 🛠️ Installation
 
 To get started with the Time Tracker application, follow these steps:
