@@ -1,7 +1,7 @@
 # ⏰ Tracklog
 [![CI](https://github.com/kdiehl/tracklog/actions/workflows/ci.yml/badge.svg)](https://github.com/kdiehl/tracklog/actions/workflows/ci.yml)
 
-Time Tracker is a web application designed to help users manage and track their time efficiently. This project is built using React, TypeScript, and Dexie for IndexedDB management.
+Tracklog is a web application designed to help users manage and track their time efficiently. This project is built using React, TypeScript, and Dexie for IndexedDB management.
 
 ## 📋 Table of Contents
 
