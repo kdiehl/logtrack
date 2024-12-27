@@ -48,6 +48,11 @@
       "react-app/jest"
     ]
   },
+  "standard-version": {
+    "skip": {
+      "tag": true
+    }
+  },
   "browserslist": {
     "production": [
       ">0.2%",
