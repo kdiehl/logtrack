@@ -37,7 +37,7 @@ const TicketEditModal: React.FC<TicketEditModalProps> = ({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen}>
       <div>
         <Headline preset="h2">Edit Ticket</Headline>
         <InputField

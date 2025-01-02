@@ -39,7 +39,7 @@ const BookingEditModal: React.FC<BookingEditModalProps> = ({
   };
 
   return (
-    <Modal isOpen={!!booking} onClose={onClose}>
+    <Modal isOpen={!!booking}>
       <Headline preset="h2">Edit Booking</Headline>
       <div className="mb-4">
         <label className="block mb-2">Start Time</label>
