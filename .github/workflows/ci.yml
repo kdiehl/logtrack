@@ -47,11 +47,10 @@ jobs:
         run: npm run build
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: github-pages
-          path: build
-
+          path: ./build
+  
   # Deploy job
   deploy:
     # Add a dependency to the build job
