@@ -70,6 +70,7 @@ const JournalEntry: React.FC<JournalEntryProps> = ({
             ) : (
               ticket.title
             )}
+            {ticket.description ? " - " + ticket.description : ""}
           </div>
         </div>
         <div>{durationCalculator.calculateTotalTime(entriesByTicket)}</div>

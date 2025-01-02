@@ -4,6 +4,8 @@ import CustomButton from "../components/CustomButton";
 import { Ticket } from "./Ticket";
 import Headline from "../components/Headline";
 import Card from "../components/Card";
+import InputField from "../components/InputField";
+import TextAreaField from "../components/TextAreaField";
 
 interface CreateTicketProps {
   createTicket: (ticket: Partial<Ticket>) => void;
@@ -29,20 +31,17 @@ const CreateTicket: React.FC<CreateTicketProps> = ({ createTicket }) => {
       <div className="mb-4">
         <Headline>Create Ticket</Headline>
       </div>
-      <input
-        type="text"
+      <InputField
         name="title"
         placeholder="Title"
         value={currentTicket.title || ""}
         onChange={handleInputChange}
-        className="w-full p-2 mb-4 border border-gray-300 dark:bg-gray-600 dark:border-gray-500 rounded"
       />
-      <textarea
+      <TextAreaField
         name="description"
         placeholder="Description"
         value={currentTicket.description || ""}
         onChange={handleInputChange}
-        className="w-full p-2 mb-4 border border-gray-300 dark:bg-gray-600 dark:border-gray-500 rounded"
       />
       <CustomButton preset="submit" onClick={handleSubmit}>
         Submit

@@ -13,7 +13,7 @@ const App: React.FC = () => {
   return (
     <SettingsProvider>
       <Router>
-        <div className="flex flex-col h-screen bg-white dark:bg-gray-700 dark:text-white">
+        <div className="flex flex-col min-h-screen bg-white dark:bg-gray-700 dark:text-white">
           <Navbar />
           <div className="flex flex-1">
             <Routes>

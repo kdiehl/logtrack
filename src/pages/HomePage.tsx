@@ -10,7 +10,7 @@ const HomePage: React.FC = () => {
         <JournalList />
       </div>
       <div className="flex-1 p-5 overflow-y-auto">
-        <JiraTickets editable={false} />
+        <JiraTickets />
       </div>
     </div>
   );

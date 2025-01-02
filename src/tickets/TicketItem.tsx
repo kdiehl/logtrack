@@ -1,11 +1,12 @@
 // src/tickets/TicketItem.tsx
-import React from "react";
+import React, { useState } from "react";
 import { Ticket } from "./Ticket";
 import CustomButton from "../components/CustomButton";
 import Card from "../components/Card";
 import Headline from "../components/Headline";
 import Link from "../components/Link";
 import { useSettings } from "../contexts/SettingsContext";
+import TicketEditModal from "./TicketEditModal";
 
 interface TicketItemProps {
   ticket: Ticket;
@@ -24,12 +25,24 @@ const TicketItem: React.FC<TicketItemProps> = ({
 }) => {
   const { url } = useSettings();
   const ticketUrl = `${url}/${ticket.title}`;
+  const [isEditModalOpen, setEditModalOpen] = useState(false);
 
   function handleCreateBooking() {
     if (onCreateBooking) {
       onCreateBooking(ticket.id, new Date().toISOString());
     }
   }
+
+  const handleEditClick = () => {
+    setEditModalOpen(true);
+  };
+
+  const handleSave = (updatedTicket: Ticket) => {
+    if (onEdit) {
+      onEdit(updatedTicket);
+    }
+    setEditModalOpen(false);
+  };
 
   return (
     <Card>
@@ -47,9 +60,11 @@ const TicketItem: React.FC<TicketItemProps> = ({
         {(onEdit || onArchive || onUnarchive) && (
           <div className="flex ml-auto">
             {onEdit && (
-              <CustomButton preset="secondary" onClick={() => onEdit(ticket)}>
-                Edit
-              </CustomButton>
+              <div>
+                <CustomButton preset="secondary" onClick={handleEditClick}>
+                  Edit
+                </CustomButton>
+              </div>
             )}
             {ticket.status === "active" && onArchive && (
               <div className="ml-2">
@@ -79,6 +94,12 @@ const TicketItem: React.FC<TicketItemProps> = ({
           </div>
         )}
       </div>
+      <TicketEditModal
+        ticket={ticket}
+        isOpen={isEditModalOpen}
+        onClose={() => setEditModalOpen(false)}
+        onSave={handleSave}
+      />
     </Card>
   );
 };

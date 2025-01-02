@@ -1,7 +1,9 @@
+// src/journal/BookingEditModal.tsx
 import React, { useEffect, useState } from "react";
 import { BookingModel } from "./BookingModel";
 import CustomButton from "../components/CustomButton";
 import Headline from "../components/Headline";
+import Modal from "../components/Modal";
 
 interface BookingEditModalProps {
   booking: BookingModel | null;
@@ -37,39 +39,37 @@ const BookingEditModal: React.FC<BookingEditModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white dark:bg-gray-700 p-4 rounded shadow-md">
-        <Headline preset="h2">Edit Booking</Headline>
-        <div className="mb-4">
-          <label className="block mb-2">Start Time</label>
-          <input
-            type="datetime-local"
-            value={startTime}
-            onChange={(e) => setStartTime(e.target.value)}
-            className="w-full p-2 border border-gray-300 dark:border-gray-400 dark:bg-gray-500 rounded"
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block mb-2">End Time</label>
-          <input
-            type="datetime-local"
-            value={endTime}
-            onChange={(e) => setEndTime(e.target.value)}
-            className="w-full p-2 border border-gray-300 dark:border-gray-400 dark:bg-gray-500 rounded"
-          />
-        </div>
-        <div className="flex justify-end">
-          <div className="mr-2">
-            <CustomButton preset="secondary" onClick={onClose}>
-              Cancel
-            </CustomButton>
-          </div>
-          <CustomButton preset="success" onClick={handleSave}>
-            Save
+    <Modal isOpen={!!booking} onClose={onClose}>
+      <Headline preset="h2">Edit Booking</Headline>
+      <div className="mb-4">
+        <label className="block mb-2">Start Time</label>
+        <input
+          type="datetime-local"
+          value={startTime}
+          onChange={(e) => setStartTime(e.target.value)}
+          className="w-full p-2 border border-gray-300 dark:border-gray-400 dark:bg-gray-500 rounded"
+        />
+      </div>
+      <div className="mb-4">
+        <label className="block mb-2">End Time</label>
+        <input
+          type="datetime-local"
+          value={endTime}
+          onChange={(e) => setEndTime(e.target.value)}
+          className="w-full p-2 border border-gray-300 dark:border-gray-400 dark:bg-gray-500 rounded"
+        />
+      </div>
+      <div className="flex justify-end">
+        <div className="mr-2">
+          <CustomButton preset="secondary" onClick={onClose}>
+            Cancel
           </CustomButton>
         </div>
+        <CustomButton preset="success" onClick={handleSave}>
+          Save
+        </CustomButton>
       </div>
-    </div>
+    </Modal>
   );
 };
 

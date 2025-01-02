@@ -8,11 +8,9 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "../utils/db";
 import { bookingService } from "../journal/BookingService";
 
-interface JiraTicketsProps {
-  editable?: boolean;
-}
+interface JiraTicketsProps {}
 
-const JiraTickets: React.FC<JiraTicketsProps> = ({ editable = true }) => {
+const JiraTickets: React.FC<JiraTicketsProps> = () => {
   const tickets = useLiveQuery(() => db.tickets.toArray());
 
   if (!tickets) return null;
@@ -41,16 +39,6 @@ const JiraTickets: React.FC<JiraTicketsProps> = ({ editable = true }) => {
     }
   };
 
-  const unarchiveTicket = async (id: number) => {
-    const updatedTickets: Ticket[] = tickets.map((ticket) =>
-      ticket.id === id ? { ...ticket, status: "active" } : ticket,
-    );
-    const unarchivedTicket = updatedTickets.find((ticket) => ticket.id === id)!;
-    if (unarchivedTicket) {
-      await db.tickets.update(id, unarchivedTicket);
-    }
-  };
-
   async function onCreateBooking(ticketId: number, startTime: string) {
     await bookingService.createBooking(ticketId, startTime);
   }
@@ -67,9 +55,8 @@ const JiraTickets: React.FC<JiraTicketsProps> = ({ editable = true }) => {
             <TicketItem
               key={ticket.id}
               ticket={ticket}
-              onEdit={editable ? editTicket : undefined}
+              onEdit={editTicket}
               onArchive={archiveTicket}
-              onUnarchive={editable ? unarchiveTicket : undefined}
               onCreateBooking={onCreateBooking}
             />
           ))}
