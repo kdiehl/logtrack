@@ -8,14 +8,13 @@ import JournalEntry from "./JournalEntry";
 import { bookingService } from "./BookingService";
 import { durationCalculator } from "./DurationCalculator";
 import BookingEditModal from "./BookingEditModal";
+import JournalHistory from "./JournalHistory";
 
 export type BookingsGroupedByDateAndTicketId = {
   [date: string]: {
     [ticketId: number]: BookingModel[];
   };
 };
-
-interface JournalListProps {}
 
 function formatDate(date: string) {
   return new Date(date).toLocaleDateString("de-DE", {
@@ -42,7 +41,7 @@ function groupEntries(
   }, {} as BookingsGroupedByDateAndTicketId);
 }
 
-const JournalList: React.FC<JournalListProps> = () => {
+const JournalList: React.FC = () => {
   const bookings = useLiveQuery(() => db.bookings.toArray(), []);
   const tickets = useLiveQuery(() => db.tickets.toArray(), []);
   const [editingBooking, setEditingBooking] = useState<BookingModel | null>(
@@ -82,45 +81,57 @@ const JournalList: React.FC<JournalListProps> = () => {
     setEditingBooking(null);
   };
 
+  const today = new Date().toISOString().slice(0, 10);
+
   return (
     <div>
       <div className="mb-4">
         <Headline preset="h2">Journal</Headline>
       </div>
-      <ul className="space-y-4">
-        {sortedDates.map((date) => {
-          const totalTime = durationCalculator.calculateTotalTime(
-            Object.values(groupedEntries[date]).flat(),
-          );
-          return (
-            <li key={date}>
-              <Headline preset="h2">
-                {`${formatDate(date)} - ${totalTime}`}
-              </Headline>
-              <ul className="mt-2 space-y-2">
-                {Object.entries(groupedEntries[date]).map(
-                  ([ticketId, entriesByTicket]) => {
-                    return (
-                      getTicket(Number(ticketId)) && (
-                        <JournalEntry
-                          key={`${date}-${ticketId}`}
-                          date={date}
-                          entriesByTicket={entriesByTicket}
-                          handleStartBooking={handleStartBooking}
-                          handleStopBooking={handleStopBooking}
-                          handleEditBooking={handleEditBooking}
-                          handleDeleteBooking={handleDeleteBooking}
-                          ticket={getTicket(Number(ticketId))}
-                        />
-                      )
-                    );
-                  },
-                )}
-              </ul>
-            </li>
-          );
-        })}
+      <ul className="space-y-4 mb-4">
+        {sortedDates
+          .filter((date) => date === today)
+          .map((date) => {
+            const totalTime = durationCalculator.calculateTotalTime(
+              Object.values(groupedEntries[date]).flat(),
+            );
+            return (
+              <li key={date}>
+                <Headline preset="h2">
+                  {`${formatDate(date)} - ${totalTime}`}
+                </Headline>
+                <ul className="mt-2 space-y-2">
+                  {Object.entries(groupedEntries[date]).map(
+                    ([ticketId, entriesByTicket]) => {
+                      return (
+                        getTicket(Number(ticketId)) && (
+                          <JournalEntry
+                            key={`${date}-${ticketId}`}
+                            date={date}
+                            entriesByTicket={entriesByTicket}
+                            handleStartBooking={handleStartBooking}
+                            handleStopBooking={handleStopBooking}
+                            handleEditBooking={handleEditBooking}
+                            handleDeleteBooking={handleDeleteBooking}
+                            ticket={getTicket(Number(ticketId))}
+                          />
+                        )
+                      );
+                    },
+                  )}
+                </ul>
+              </li>
+            );
+          })}
       </ul>
+      <JournalHistory
+        groupedEntries={groupedEntries}
+        bookings={bookings}
+        handleStartBooking={handleStartBooking}
+        handleStopBooking={handleStopBooking}
+        handleEditBooking={handleEditBooking}
+        handleDeleteBooking={handleDeleteBooking}
+      />
       {editingBooking && (
         <BookingEditModal
           booking={editingBooking}

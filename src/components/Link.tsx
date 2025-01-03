@@ -12,7 +12,7 @@ const Link: React.FC<LinkProps> = ({ ticketUrl, title }) => {
       href={ticketUrl}
       target="_blank"
       rel="noreferrer"
-      className="text-blue-500 underline"
+      className="text-blue-500 dark:text-blue-400 underline"
     >
       {title}
     </a>

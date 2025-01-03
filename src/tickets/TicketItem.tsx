@@ -7,6 +7,13 @@ import Headline from "../components/Headline";
 import Link from "../components/Link";
 import { useSettings } from "../contexts/SettingsContext";
 import TicketEditModal from "./TicketEditModal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faPen,
+  faArchive,
+  faBoxOpen,
+  faPlay,
+} from "@fortawesome/free-solid-svg-icons";
 
 interface TicketItemProps {
   ticket: Ticket;
@@ -46,53 +53,55 @@ const TicketItem: React.FC<TicketItemProps> = ({
 
   return (
     <Card>
-      <div className="flex">
-        <div>
-          <Headline preset="h3">
-            {url ? (
-              <Link ticketUrl={ticketUrl} title={ticket.title} />
-            ) : (
-              ticket.title
-            )}
-          </Headline>
-          {ticket.description && <p className="mt-4">{ticket.description}</p>}
-        </div>
-        {(onEdit || onArchive || onUnarchive) && (
-          <div className="flex ml-auto">
-            {onEdit && (
-              <div>
-                <CustomButton preset="secondary" onClick={handleEditClick}>
-                  Edit
-                </CustomButton>
-              </div>
-            )}
-            {ticket.status === "active" && onArchive && (
-              <div className="ml-2">
+      <div>
+        <div className="flex">
+          <div>
+            <Headline preset="h3">
+              {url ? (
+                <Link ticketUrl={ticketUrl} title={ticket.title} />
+              ) : (
+                ticket.title
+              )}
+            </Headline>
+          </div>
+          {(onEdit || onArchive || onUnarchive) && (
+            <div className="flex flex-shrink-0 ml-auto">
+              {onEdit && (
+                <div>
+                  <CustomButton preset="secondary" onClick={handleEditClick}>
+                    <FontAwesomeIcon icon={faPen} />
+                  </CustomButton>
+                </div>
+              )}
+              {ticket.status === "active" && onArchive && (
+                <div className="ml-2">
+                  <CustomButton
+                    preset="secondary"
+                    onClick={() => onArchive(ticket.id)}
+                  >
+                    <FontAwesomeIcon icon={faArchive} />
+                  </CustomButton>
+                </div>
+              )}
+              {ticket.status === "archived" && onUnarchive && (
                 <CustomButton
                   preset="secondary"
-                  onClick={() => onArchive(ticket.id)}
+                  onClick={() => onUnarchive(ticket.id)}
                 >
-                  Archive
+                  <FontAwesomeIcon icon={faBoxOpen} />
                 </CustomButton>
-              </div>
-            )}
-            {ticket.status === "archived" && onUnarchive && (
-              <CustomButton
-                preset="secondary"
-                onClick={() => onUnarchive(ticket.id)}
-              >
-                Unarchive
-              </CustomButton>
-            )}
-            {onCreateBooking && (
-              <div className="ml-2">
-                <CustomButton preset="submit" onClick={handleCreateBooking}>
-                  Create Booking
-                </CustomButton>
-              </div>
-            )}
-          </div>
-        )}
+              )}
+              {onCreateBooking && (
+                <div className="ml-2">
+                  <CustomButton preset="submit" onClick={handleCreateBooking}>
+                    <FontAwesomeIcon icon={faPlay} />
+                  </CustomButton>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+        {ticket.description && <p className="mt-4">{ticket.description}</p>}
       </div>
       <TicketEditModal
         ticket={ticket}
