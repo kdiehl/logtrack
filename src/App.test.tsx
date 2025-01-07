@@ -9,7 +9,7 @@ jest.mock("./pages/HomePage", () => () => <div>Mocked HomePage</div>);
 jest.mock("./tickets/ArchivedTickets", () => () => (
   <div>Mocked ArchivedTickets</div>
 ));
-jest.mock("./tickets/JiraTickets", () => () => <div>Mocked JiraTickets</div>);
+jest.mock("./tickets/ActiveTickets", () => () => <div>Mocked JiraTickets</div>);
 jest.mock("./pages/SettingsPage", () => () => <div>Mocked SettingsPage</div>);
 
 describe("App", () => {

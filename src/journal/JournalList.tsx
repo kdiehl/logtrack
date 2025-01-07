@@ -1,7 +1,7 @@
 // src/journal/JournalList.tsx
 import React, { useState } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
-import { BookingModel } from "./BookingModel";
+import { Booking } from "./Booking";
 import { db } from "../utils/db";
 import Headline from "../components/Headline";
 import JournalEntry from "./JournalEntry";
@@ -12,7 +12,7 @@ import JournalHistory from "./JournalHistory";
 
 export type BookingsGroupedByDateAndTicketId = {
   [date: string]: {
-    [ticketId: number]: BookingModel[];
+    [ticketId: number]: Booking[];
   };
 };
 
@@ -26,7 +26,7 @@ function formatDate(date: string) {
 }
 
 function groupEntries(
-  currentBookings: BookingModel[],
+  currentBookings: Booking[],
 ): BookingsGroupedByDateAndTicketId {
   return currentBookings.reduce((acc, entry) => {
     if (!acc[entry.date]) {
@@ -44,9 +44,7 @@ function groupEntries(
 const JournalList: React.FC = () => {
   const bookings = useLiveQuery(() => db.bookings.toArray(), []);
   const tickets = useLiveQuery(() => db.tickets.toArray(), []);
-  const [editingBooking, setEditingBooking] = useState<BookingModel | null>(
-    null,
-  );
+  const [editingBooking, setEditingBooking] = useState<Booking | null>(null);
 
   if (!bookings || !tickets) return null;
 
@@ -64,11 +62,11 @@ const JournalList: React.FC = () => {
     await bookingService.createBooking(ticketId, new Date().toISOString());
   };
 
-  const handleStopBooking = async (booking: BookingModel) => {
+  const handleStopBooking = async (booking: Booking) => {
     await bookingService.setEndTime(booking, new Date().toISOString());
   };
 
-  const handleEditBooking = (booking: BookingModel) => {
+  const handleEditBooking = (booking: Booking) => {
     setEditingBooking(booking);
   };
 
@@ -76,7 +74,7 @@ const JournalList: React.FC = () => {
     await db.bookings.delete(bookingId);
   };
 
-  const handleSaveBooking = async (updatedBooking: BookingModel) => {
+  const handleSaveBooking = async (updatedBooking: Booking) => {
     await db.bookings.update(updatedBooking.id, updatedBooking);
     setEditingBooking(null);
   };

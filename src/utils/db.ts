@@ -1,6 +1,6 @@
 // src/utils/db.ts
 import Dexie from "dexie";
-import { BookingModel } from "../journal/BookingModel";
+import { Booking } from "../journal/Booking";
 import { Ticket } from "../tickets/Ticket";
 
 export interface SettingsModel {
@@ -10,7 +10,7 @@ export interface SettingsModel {
 }
 
 class AppDatabase extends Dexie {
-  bookings: Dexie.Table<BookingModel, number>;
+  bookings: Dexie.Table<Booking, number>;
   tickets: Dexie.Table<Ticket, number>;
   settings: Dexie.Table<SettingsModel, number>;
 

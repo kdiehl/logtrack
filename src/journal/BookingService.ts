@@ -1,4 +1,4 @@
-import { BookingModel } from "./BookingModel";
+import { Booking } from "./Booking";
 import { db } from "../utils/db";
 
 class BookingService {
@@ -17,7 +17,7 @@ class BookingService {
     const roundedStartTime = this.roundToNearestQuarterHour(
       new Date(startTime),
     ).toISOString();
-    const newBooking: BookingModel = {
+    const newBooking: Booking = {
       id: Date.now(),
       date: new Date().toISOString().split("T")[0],
       ticketId,
@@ -26,14 +26,14 @@ class BookingService {
     await db.bookings.add(newBooking);
   }
 
-  private async stopOngoingBooking(bookings: Array<BookingModel>) {
+  private async stopOngoingBooking(bookings: Array<Booking>) {
     const ongoingBooking = bookings.find((booking) => !booking.endTime);
     if (ongoingBooking) {
       await this.setEndTime(ongoingBooking, new Date().toISOString());
     }
   }
 
-  public async setEndTime(booking: BookingModel, endTime: string) {
+  public async setEndTime(booking: Booking, endTime: string) {
     booking.endTime = this.roundToNearestQuarterHour(
       new Date(endTime),
     ).toISOString();

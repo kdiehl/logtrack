@@ -1,8 +1,8 @@
 // src/journal/JournalEntry.tsx
 import React from "react";
-import { BookingModel } from "./BookingModel";
+import { Booking } from "./Booking";
 import CustomButton from "../components/CustomButton";
-import Booking from "./Booking";
+import BookingDetails from "./BookingDetails";
 import { Ticket } from "../tickets/Ticket";
 import { durationCalculator } from "./DurationCalculator";
 import Link from "../components/Link";
@@ -11,17 +11,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlay,
   faStop,
-  faPen,
-  faTrash,
   faChevronDown,
 } from "@fortawesome/free-solid-svg-icons";
 
 interface JournalEntryProps {
   date: string;
-  entriesByTicket: BookingModel[];
+  entriesByTicket: Booking[];
   handleStartBooking: (ticketId: number) => void;
-  handleStopBooking: (booking: BookingModel) => void;
-  handleEditBooking: (booking: BookingModel) => void;
+  handleStopBooking: (booking: Booking) => void;
+  handleEditBooking: (booking: Booking) => void;
   handleDeleteBooking: (bookingId: number) => void;
   ticket: Ticket;
 }
@@ -75,11 +73,7 @@ const JournalEntry: React.FC<JournalEntryProps> = ({
             )}
           </div>
           <div className="font-semibold items-start mt-1">
-            {url ? (
-              <Link ticketUrl={ticketUrl} title={ticket.title} />
-            ) : (
-              ticket.title
-            )}
+            {url ? <Link url={ticketUrl} text={ticket.title} /> : ticket.title}
             {ticket.description ? " - " + ticket.description : ""}
           </div>
         </div>
@@ -103,29 +97,13 @@ const JournalEntry: React.FC<JournalEntryProps> = ({
         }`}
       >
         <div className="bg-gray-200 dark:bg-gray-600 rounded p-2">
-          {entriesByTicket.map((booking, index) => (
-            <div
+          {entriesByTicket.map((booking) => (
+            <BookingDetails
               key={`${date}-${ticket.id}-${booking.startTime}`}
-              className={`flex items-center justify-between ${
-                index !== entriesByTicket.length - 1 ? "mb-1" : ""
-              }`}
-            >
-              <Booking booking={booking} />
-              <div className="flex space-x-2">
-                <CustomButton
-                  preset="secondary"
-                  onClick={() => handleEditBooking(booking)}
-                >
-                  <FontAwesomeIcon icon={faPen} />
-                </CustomButton>
-                <CustomButton
-                  preset="alert"
-                  onClick={() => handleDeleteBooking(booking.id)}
-                >
-                  <FontAwesomeIcon icon={faTrash} />
-                </CustomButton>
-              </div>
-            </div>
+              booking={booking}
+              onEdit={handleEditBooking}
+              onDelete={handleDeleteBooking}
+            />
           ))}
         </div>
       </div>

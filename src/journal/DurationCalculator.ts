@@ -1,7 +1,7 @@
-import { BookingModel } from "./BookingModel";
+import { Booking } from "./Booking";
 
 class DurationCalculator {
-  public calculateTotalTime(entries: BookingModel[]) {
+  public calculateTotalTime(entries: Booking[]) {
     const totalTimeInMs = entries
       .filter((entry) => entry.endTime)
       .reduce((acc, entry) => {

@@ -5,7 +5,7 @@ import HomePage from "./pages/HomePage";
 import ArchivedTickets from "./tickets/ArchivedTickets";
 import Navbar from "./components/Navbar";
 import "./App.css";
-import JiraTickets from "./tickets/JiraTickets";
+import ActiveTickets from "./tickets/ActiveTickets";
 import { SettingsProvider } from "./contexts/SettingsContext";
 import SettingsPage from "./pages/SettingsPage";
 
@@ -23,7 +23,7 @@ const App: React.FC = () => {
                 path="/tickets"
                 element={
                   <div className="flex-1 p-5 overflow-y-auto">
-                    <JiraTickets />
+                    <ActiveTickets />
                   </div>
                 }
               ></Route>

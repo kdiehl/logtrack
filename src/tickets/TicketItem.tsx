@@ -58,7 +58,7 @@ const TicketItem: React.FC<TicketItemProps> = ({
           <div>
             <Headline preset="h3">
               {url ? (
-                <Link ticketUrl={ticketUrl} title={ticket.title} />
+                <Link url={ticketUrl} text={ticket.title} />
               ) : (
                 ticket.title
               )}

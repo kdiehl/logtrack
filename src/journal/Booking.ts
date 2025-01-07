@@ -1,4 +1,4 @@
-export interface BookingModel {
+export interface Booking {
   id: number;
   ticketId: number;
   date: string; // ISO string format

@@ -1,14 +1,14 @@
 // src/journal/BookingEditModal.tsx
 import React, { useEffect, useState } from "react";
-import { BookingModel } from "./BookingModel";
+import { Booking } from "./Booking";
 import CustomButton from "../components/CustomButton";
 import Headline from "../components/Headline";
 import Modal from "../components/Modal";
 
 interface BookingEditModalProps {
-  booking: BookingModel | null;
+  booking: Booking | null;
   onClose: () => void;
-  onSave: (updatedBooking: BookingModel) => void;
+  onSave: (updatedBooking: Booking) => void;
 }
 
 const BookingEditModal: React.FC<BookingEditModalProps> = ({

@@ -1,6 +1,6 @@
 // src/journal/JournalHistory.tsx
 import React, { useState } from "react";
-import { BookingModel } from "./BookingModel";
+import { Booking } from "./Booking";
 import JournalEntry from "./JournalEntry";
 import Headline from "../components/Headline";
 import { durationCalculator } from "./DurationCalculator";
@@ -13,13 +13,13 @@ import CustomButton from "../components/CustomButton";
 interface JournalHistoryProps {
   groupedEntries: {
     [date: string]: {
-      [ticketId: number]: BookingModel[];
+      [ticketId: number]: Booking[];
     };
   };
-  bookings: BookingModel[];
+  bookings: Booking[];
   handleStartBooking: (ticketId: number) => void;
-  handleStopBooking: (booking: BookingModel) => void;
-  handleEditBooking: (booking: BookingModel) => void;
+  handleStopBooking: (booking: Booking) => void;
+  handleEditBooking: (booking: Booking) => void;
   handleDeleteBooking: (bookingId: number) => void;
 }
 

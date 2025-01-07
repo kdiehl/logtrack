@@ -2,19 +2,19 @@
 import React from "react";
 
 interface LinkProps {
-  ticketUrl: string;
-  title: string;
+  url: string;
+  text: string;
 }
 
-const Link: React.FC<LinkProps> = ({ ticketUrl, title }) => {
+const Link: React.FC<LinkProps> = ({ url, text }) => {
   return (
     <a
-      href={ticketUrl}
+      href={url}
       target="_blank"
       rel="noreferrer"
       className="text-blue-500 dark:text-blue-400 underline"
     >
-      {title}
+      {text}
     </a>
   );
 };

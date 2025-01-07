@@ -2,7 +2,7 @@
 import React, { ReactNode } from "react";
 
 interface HeadlineProps {
-  children: ReactNode;
+  children?: ReactNode;
   preset?: "h1" | "h2" | "h3";
 }
 

@@ -1,7 +1,19 @@
-# ⏰ Tracklog
-[![CI](https://github.com/kdiehl/tracklog/actions/workflows/ci.yml/badge.svg)](https://github.com/kdiehl/tracklog/actions/workflows/ci.yml)
+<h1 align="center"></h1>
 
-Tracklog is a web application designed to help users manage and track their time efficiently. This project is built using React, TypeScript, and Dexie for IndexedDB management.
+<div align="center">
+
+# Tracklog
+
+![Tracklog Logo](logo.png)
+
+[![CI](https://github.com/kdiehl/tracklog/actions/workflows/ci.yml/badge.svg)](https://github.com/kdiehl/tracklog/actions/workflows/ci.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=kdiehl_tracklog&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=kdiehl_tracklog)
+
+</div>
+
+
+Tracklog is a web application designed to help users manage and track their time efficiently. This project is built
+using React, TypeScript, and Dexie for IndexedDB management.
 
 ## 📋 Table of Contents
 
@@ -20,7 +32,8 @@ Tracklog is a web application designed to help users manage and track their time
 - **🌙 Dark Mode**: Switch between light and dark themes.
 - **📶 Offline Support**: Works offline using IndexedDB and Workbox.
 - **📦 Precaching**: Automatically cache assets during the service worker installation.
-- 
+-
+
 ## 🛠️ Installation
 
 To get started with the Time Tracker application, follow these steps:
@@ -43,7 +56,8 @@ To get started with the Time Tracker application, follow these steps:
 
 ## 🚀 Usage
 
-Once the development server is running, you can access the application at `http://localhost:3000`. The main features include:
+Once the development server is running, you can access the application at `http://localhost:3000`. The main features
+include:
 
 - **📊 Dashboard**: View an overview of your tasks and time tracked.
 - **📝 Tasks**: Manage your tasks, including adding, editing, and deleting tasks.
@@ -51,7 +65,8 @@ Once the development server is running, you can access the application at `http:
 
 ## 🧪 Testing
 
-This project uses Jest and React Testing Library for unit and integration tests. To run the tests, use the following command:
+This project uses Jest and React Testing Library for unit and integration tests. To run the tests, use the following
+command:
 
 ```sh
 npm test

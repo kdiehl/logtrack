@@ -1,16 +1,17 @@
-// src/tickets/JiraTickets.tsx
-import React from "react";
+import React, { useState } from "react";
 import TicketItem from "./TicketItem";
 import { Ticket } from "./Ticket";
 import Headline from "../components/Headline";
-import CreateTicket from "./CreateTicket";
+import CreateTicketModal from "./CreateTicketModal";
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "../utils/db";
 import { bookingService } from "../journal/BookingService";
+import CustomButton from "../components/CustomButton";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-interface JiraTicketsProps {}
-
-const JiraTickets: React.FC<JiraTicketsProps> = () => {
+const ActiveTickets: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const tickets = useLiveQuery(() => db.tickets.toArray());
 
   if (!tickets) return null;
@@ -23,6 +24,7 @@ const JiraTickets: React.FC<JiraTicketsProps> = () => {
       status: "active",
     };
     await db.tickets.add(newTicket);
+    setIsModalOpen(false);
   };
 
   const editTicket = async (updatedTicket: Ticket) => {
@@ -45,8 +47,13 @@ const JiraTickets: React.FC<JiraTicketsProps> = () => {
 
   return (
     <div>
-      <div className="mb-4">
-        <Headline>Jira Tickets</Headline>
+      <div className="flex items-center mb-4">
+        <div className="mr-2">
+          <Headline>Tickets</Headline>
+        </div>
+        <CustomButton preset="submit" onClick={() => setIsModalOpen(true)}>
+          <FontAwesomeIcon icon={faPlus} />
+        </CustomButton>
       </div>
       <ul className="mt-5 mb-5 space-y-4">
         {tickets
@@ -61,9 +68,13 @@ const JiraTickets: React.FC<JiraTicketsProps> = () => {
             />
           ))}
       </ul>
-      <CreateTicket createTicket={createTicket} />
+      <CreateTicketModal
+        createTicket={createTicket}
+        isOpen={isModalOpen}
+        closeModal={() => setIsModalOpen(false)}
+      />
     </div>
   );
 };
 
-export default JiraTickets;
+export default ActiveTickets;

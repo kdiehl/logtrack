@@ -1,6 +1,6 @@
 // src/pages/HomePage.tsx
 import React from "react";
-import JiraTickets from "../tickets/JiraTickets";
+import ActiveTickets from "../tickets/ActiveTickets";
 import JournalList from "../journal/JournalList";
 
 const HomePage: React.FC = () => {
@@ -10,7 +10,7 @@ const HomePage: React.FC = () => {
         <JournalList />
       </div>
       <div className="flex-1 p-5 overflow-y-auto">
-        <JiraTickets />
+        <ActiveTickets />
       </div>
     </div>
   );
