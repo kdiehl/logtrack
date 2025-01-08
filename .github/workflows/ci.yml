@@ -31,7 +31,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: coverage/lcov-report
+          path: coverage
 
   build:
     runs-on: ubuntu-latest
@@ -71,8 +71,8 @@ jobs:
           name: coverage-report
           path: coverage
 
-      - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@v4
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v4
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
