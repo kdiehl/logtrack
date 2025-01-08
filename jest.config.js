@@ -1,5 +1,17 @@
 module.exports = {
   preset: "ts-jest",
+  collectCoverage: true,
+  coverageReporters: ["lcov", "text"],
+  reporters: [
+    "default",
+    [
+      "jest-sonar-reporter",
+      {
+        reportFile: "test-report.xml",
+        indent: 4,
+      },
+    ],
+  ],
   testEnvironment: "jsdom",
   setupFilesAfterEnv: ["<rootDir>/src/setupTests.ts"],
   moduleNameMapper: {

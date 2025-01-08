@@ -40,7 +40,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build && workbox generateSW workbox-config.js",
     "test": "react-scripts test",
-    "test:ci": "react-scripts test --watchAll=false",
+    "test:ci": "react-scripts test --watchAll=false --coverage --coverageReporters=text-lcov",
+    "coverage": "react-scripts test --coverage --watchAll=false --coverageReporters=lcov",
     "eject": "react-scripts eject",
     "prepare": "husky",
     "release": "standard-version"
@@ -73,6 +74,8 @@
     "autoprefixer": "^10.4.20",
     "fake-indexeddb": "^6.0.0",
     "husky": "^9.1.7",
+    "jest": "^27.5.1",
+    "jest-sonar-reporter": "^2.0.0",
     "postcss": "^8.4.49",
     "prettier": "^3.3.3",
     "standard-version": "^9.5.0",

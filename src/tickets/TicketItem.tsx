@@ -32,7 +32,7 @@ const TicketItem: React.FC<TicketItemProps> = ({
 }) => {
   const { url } = useSettings();
   const ticketUrl = `${url}/${ticket.title}`;
-  const [isEditModalOpen, setEditModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   function handleCreateBooking() {
     if (onCreateBooking) {
@@ -41,14 +41,14 @@ const TicketItem: React.FC<TicketItemProps> = ({
   }
 
   const handleEditClick = () => {
-    setEditModalOpen(true);
+    setIsEditModalOpen(true);
   };
 
   const handleSave = (updatedTicket: Ticket) => {
     if (onEdit) {
       onEdit(updatedTicket);
     }
-    setEditModalOpen(false);
+    setIsEditModalOpen(false);
   };
 
   return (
@@ -106,7 +106,7 @@ const TicketItem: React.FC<TicketItemProps> = ({
       <TicketEditModal
         ticket={ticket}
         isOpen={isEditModalOpen}
-        onClose={() => setEditModalOpen(false)}
+        onClose={() => setIsEditModalOpen(false)}
         onSave={handleSave}
       />
     </Card>

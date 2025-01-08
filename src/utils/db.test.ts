@@ -1,8 +1,7 @@
 // src/utils/db.test.ts
-import { db } from "./db";
+import { db, SettingsModel } from "./db";
 import { Booking } from "../journal/Booking";
 import { Ticket } from "../tickets/Ticket";
-import { SettingsModel } from "./db";
 
 describe("AppDatabase", () => {
   beforeAll(async () => {

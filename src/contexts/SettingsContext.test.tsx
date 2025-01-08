@@ -17,6 +17,14 @@ const TestComponent = () => {
   );
 };
 
+function renderTestComponent() {
+  render(
+    <SettingsProvider>
+      <TestComponent />
+    </SettingsProvider>,
+  );
+}
+
 describe("SettingsContext", () => {
   beforeEach(() => {
     (db.settings.toArray as jest.Mock).mockResolvedValue([
@@ -26,11 +34,7 @@ describe("SettingsContext", () => {
   });
 
   it("provides default settings", async () => {
-    render(
-      <SettingsProvider>
-        <TestComponent />
-      </SettingsProvider>,
-    );
+    renderTestComponent();
 
     await waitFor(() => {
       expect(screen.getByTestId("theme").textContent).toBe("light");
@@ -43,11 +47,7 @@ describe("SettingsContext", () => {
       { id: 1, theme: "dark", url: "https://example.com" },
     ]);
 
-    render(
-      <SettingsProvider>
-        <TestComponent />
-      </SettingsProvider>,
-    );
+    renderTestComponent();
 
     await waitFor(() => {
       expect(screen.getByTestId("theme").textContent).toBe("dark");
@@ -56,11 +56,7 @@ describe("SettingsContext", () => {
   });
 
   it("updates theme and saves to the database", async () => {
-    render(
-      <SettingsProvider>
-        <TestComponent />
-      </SettingsProvider>,
-    );
+    renderTestComponent();
 
     act(() => {
       screen.getByText("Set Dark Theme").click();
@@ -78,11 +74,7 @@ describe("SettingsContext", () => {
   });
 
   it("updates url and saves to the database", async () => {
-    render(
-      <SettingsProvider>
-        <TestComponent />
-      </SettingsProvider>,
-    );
+    renderTestComponent();
 
     act(() => {
       screen.getByText("Set URL").click();
