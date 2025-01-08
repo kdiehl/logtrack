@@ -8,6 +8,7 @@ module.exports = {
       "jest-sonar-reporter",
       {
         reportFile: "test-report.xml",
+        reportPath: "coverage",
         indent: 4,
       },
     ],
