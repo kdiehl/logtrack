@@ -1,7 +1,7 @@
 module.exports = {
   preset: "ts-jest",
   collectCoverage: true,
-  coverageReporters: ["lcov", "text"],
+  coverageReporters: ["lcov"],
   reporters: [
     "default",
     [
