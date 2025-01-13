@@ -1,13 +1,13 @@
-// src/pages/SettingsPage.tsx
 import React from "react";
 import Headline from "../components/Headline";
 import { useSettings } from "../contexts/SettingsContext";
+import { Theme } from "../settings/Theme";
 
 const SettingsPage: React.FC = () => {
   const { theme, url, setTheme, setUrl } = useSettings();
 
   const handleThemeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setTheme(e.target.value);
+    setTheme(e.target.value as Theme);
   };
 
   const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,19 +18,25 @@ const SettingsPage: React.FC = () => {
     <div className="p-4 w-full">
       <Headline preset="h2">Settings</Headline>
       <div className="mb-4">
-        <label className="block mb-2">Theme</label>
+        <label htmlFor="theme-select" className="block mb-2">
+          Theme
+        </label>
         <select
+          id="theme-select"
           value={theme}
           onChange={handleThemeChange}
           className="w-full p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-500 rounded"
         >
-          <option value="light">Light</option>
-          <option value="dark">Dark</option>
+          <option value={Theme.Light}>Light</option>
+          <option value={Theme.Dark}>Dark</option>
         </select>
       </div>
       <div className="mb-4">
-        <label className="block mb-2">Ticket Base Url</label>
+        <label htmlFor="url-input" className="block mb-2">
+          Ticket Base Url
+        </label>
         <input
+          id="url-input"
           type="text"
           value={url}
           onChange={handleUrlChange}

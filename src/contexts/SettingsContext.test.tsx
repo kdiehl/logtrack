@@ -2,6 +2,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { SettingsProvider, useSettings } from "./SettingsContext";
 import { db } from "../utils/db";
 import React, { act } from "react";
+import { Theme } from "../settings/Theme";
 
 jest.mock("../utils/db");
 
@@ -11,7 +12,7 @@ const TestComponent = () => {
     <div>
       <div data-testid="theme">{theme}</div>
       <div data-testid="url">{url}</div>
-      <button onClick={() => setTheme("dark")}>Set Dark Theme</button>
+      <button onClick={() => setTheme(Theme.Dark)}>Set Dark Theme</button>
       <button onClick={() => setUrl("https://example.com")}>Set URL</button>
     </div>
   );
@@ -28,7 +29,7 @@ function renderTestComponent() {
 describe("SettingsContext", () => {
   beforeEach(() => {
     (db.settings.toArray as jest.Mock).mockResolvedValue([
-      { id: 1, theme: "light", url: "" },
+      { id: 1, theme: Theme.Light, url: "" },
     ]);
     (db.settings.put as jest.Mock).mockResolvedValue(undefined);
   });
@@ -37,20 +38,20 @@ describe("SettingsContext", () => {
     renderTestComponent();
 
     await waitFor(() => {
-      expect(screen.getByTestId("theme").textContent).toBe("light");
+      expect(screen.getByTestId("theme").textContent).toBe(Theme.Light);
       expect(screen.getByTestId("url").textContent).toBe("");
     });
   });
 
   it("loads settings from the database", async () => {
     (db.settings.toArray as jest.Mock).mockResolvedValue([
-      { id: 1, theme: "dark", url: "https://example.com" },
+      { id: 1, theme: Theme.Dark, url: "https://example.com" },
     ]);
 
     renderTestComponent();
 
     await waitFor(() => {
-      expect(screen.getByTestId("theme").textContent).toBe("dark");
+      expect(screen.getByTestId("theme").textContent).toBe(Theme.Dark);
       expect(screen.getByTestId("url").textContent).toBe("https://example.com");
     });
   });
@@ -63,12 +64,12 @@ describe("SettingsContext", () => {
     });
 
     await waitFor(() => {
-      expect(screen.getByTestId("theme").textContent).toBe("dark");
+      expect(screen.getByTestId("theme").textContent).toBe(Theme.Dark);
     });
 
     expect(db.settings.put).toHaveBeenCalledWith({
       id: 1,
-      theme: "dark",
+      theme: Theme.Dark,
       url: "",
     });
   });
@@ -86,7 +87,7 @@ describe("SettingsContext", () => {
 
     expect(db.settings.put).toHaveBeenCalledWith({
       id: 1,
-      theme: "light",
+      theme: Theme.Light,
       url: "https://example.com",
     });
   });

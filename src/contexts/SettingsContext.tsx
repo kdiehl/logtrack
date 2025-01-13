@@ -1,11 +1,18 @@
 // src/contexts/SettingsContext.tsx
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { db } from "../utils/db";
+import { Theme } from "../settings/Theme";
 
 interface SettingsContextProps {
-  theme: string;
+  theme: Theme;
   url: string;
-  setTheme: (theme: string) => void;
+  setTheme: (theme: Theme) => void;
   setUrl: (url: string) => void;
 }
 
@@ -13,8 +20,8 @@ const SettingsContext = createContext<SettingsContextProps | undefined>(
   undefined,
 );
 
-function applyTheme(theme: string) {
-  if (theme === "dark") {
+function applyTheme(theme: Theme) {
+  if (theme === Theme.Dark) {
     document.documentElement.classList.add("dark");
   } else {
     document.documentElement.classList.remove("dark");
@@ -24,7 +31,7 @@ function applyTheme(theme: string) {
 export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState<Theme>(Theme.Light);
   const [url, setUrl] = useState("");
 
   useEffect(() => {
@@ -35,14 +42,14 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
     const loadSettings = async () => {
       const settings = await db.settings.toArray();
       if (settings.length > 0) {
-        setTheme(settings[0].theme);
+        setTheme(settings[0].theme as Theme);
         setUrl(settings[0].url || "");
       }
     };
     loadSettings().catch(console.error);
   }, []);
 
-  const handleSetTheme = async (theme: string) => {
+  const handleSetTheme = async (theme: Theme) => {
     setTheme(theme);
     await db.settings.put({ id: 1, theme, url });
   };
@@ -52,10 +59,13 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
     await db.settings.put({ id: 1, theme, url });
   };
 
+  const contextValue = useMemo(
+    () => ({ theme, url, setTheme: handleSetTheme, setUrl: handleSetUrl }),
+    [theme, url],
+  );
+
   return (
-    <SettingsContext.Provider
-      value={{ theme, url, setTheme: handleSetTheme, setUrl: handleSetUrl }}
-    >
+    <SettingsContext.Provider value={contextValue}>
       {children}
     </SettingsContext.Provider>
   );
