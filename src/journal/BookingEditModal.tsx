@@ -22,11 +22,12 @@ const BookingEditModal: React.FC<BookingEditModalProps> = ({
   useEffect(() => {
     if (booking) {
       setStartTime(formatDateTime(booking.startTime));
-      setEndTime(formatDateTime(booking.endTime || ""));
+      setEndTime(formatDateTime(booking.endTime ?? ""));
     }
   }, [booking]);
 
   const formatDateTime = (dateTime: string) => {
+    if (!dateTime) return "";
     const date = new Date(dateTime);
     const tzOffset = date.getTimezoneOffset() * 60000; // offset in milliseconds
     return new Date(date.getTime() - tzOffset).toISOString().slice(0, 16);
@@ -42,8 +43,11 @@ const BookingEditModal: React.FC<BookingEditModalProps> = ({
     <Modal isOpen={!!booking}>
       <Headline preset="h2">Edit Booking</Headline>
       <div className="mb-4">
-        <label className="block mb-2">Start Time</label>
+        <label htmlFor="startTime" className="block mb-2">
+          Start Time
+        </label>
         <input
+          id="startTime"
           type="datetime-local"
           value={startTime}
           onChange={(e) => setStartTime(e.target.value)}
@@ -51,8 +55,11 @@ const BookingEditModal: React.FC<BookingEditModalProps> = ({
         />
       </div>
       <div className="mb-4">
-        <label className="block mb-2">End Time</label>
+        <label htmlFor="endTime" className="block mb-2">
+          End Time
+        </label>
         <input
+          id="endTime"
           type="datetime-local"
           value={endTime}
           onChange={(e) => setEndTime(e.target.value)}
