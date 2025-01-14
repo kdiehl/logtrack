@@ -14,12 +14,12 @@ describe("DurationCalculator", () => {
         endTime: "2023-10-01T13:00:00Z",
       }),
     ];
-    expect(durationCalculator.calculateTotalTime(entries)).toBe("4.00h");
+    expect(durationCalculator.calculateTotalTime(entries)).toBe(4.0);
   });
 
-  it("returns 0.00h when there are no entries", () => {
+  it("returns 0.00 when there are no entries", () => {
     const entries: Booking[] = [];
-    expect(durationCalculator.calculateTotalTime(entries)).toBe("0.00h");
+    expect(durationCalculator.calculateTotalTime(entries)).toBe(0.0);
   });
 
   it("ignores entries without endTime", () => {
@@ -33,7 +33,7 @@ describe("DurationCalculator", () => {
         endTime: undefined,
       }),
     ];
-    expect(durationCalculator.calculateTotalTime(entries)).toBe("2.00h");
+    expect(durationCalculator.calculateTotalTime(entries)).toBe(2.0);
   });
 
   it("handles entries with the same startTime and endTime", () => {
@@ -43,7 +43,7 @@ describe("DurationCalculator", () => {
         endTime: "2023-10-01T08:00:00Z",
       }),
     ];
-    expect(durationCalculator.calculateTotalTime(entries)).toBe("0.00h");
+    expect(durationCalculator.calculateTotalTime(entries)).toBe(0.0);
   });
 
   it("handles entries with endTime before startTime", () => {
@@ -53,6 +53,6 @@ describe("DurationCalculator", () => {
         endTime: "2023-10-01T08:00:00Z",
       }),
     ];
-    expect(durationCalculator.calculateTotalTime(entries)).toBe("-2.00h");
+    expect(durationCalculator.calculateTotalTime(entries)).toBe(-2.0);
   });
 });

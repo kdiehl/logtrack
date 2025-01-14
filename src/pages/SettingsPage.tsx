@@ -4,7 +4,8 @@ import { useSettings } from "../settings/SettingsContext";
 import { Theme } from "../settings/Theme";
 
 const SettingsPage: React.FC = () => {
-  const { theme, url, setTheme, setUrl } = useSettings();
+  const { theme, url, jiraAccessToken, setTheme, setUrl, setJiraAccessToken } =
+    useSettings();
 
   const handleThemeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setTheme(e.target.value as Theme);
@@ -12,6 +13,12 @@ const SettingsPage: React.FC = () => {
 
   const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUrl(e.target.value);
+  };
+
+  const handleJiraAccessTokenChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setJiraAccessToken(e.target.value);
   };
 
   return (
@@ -40,6 +47,18 @@ const SettingsPage: React.FC = () => {
           type="text"
           value={url}
           onChange={handleUrlChange}
+          className="w-full p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-500 rounded"
+        />
+      </div>
+      <div className="mb-4">
+        <label htmlFor="jira-access-token-input" className="block mb-2">
+          Jira Access Token
+        </label>
+        <input
+          id="jira-access-token-input"
+          type="text"
+          value={jiraAccessToken}
+          onChange={handleJiraAccessTokenChange}
           className="w-full p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-500 rounded"
         />
       </div>
