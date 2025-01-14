@@ -98,12 +98,16 @@ const JournalEntry: React.FC<JournalEntryProps> = ({
       >
         <div className="bg-gray-200 dark:bg-gray-600 rounded p-2">
           {entriesByTicket.map((booking) => (
-            <BookingDetails
+            <div
+              className="mb-1"
               key={`${date}-${ticket.id}-${booking.startTime}`}
-              booking={booking}
-              onEdit={handleEditBooking}
-              onDelete={handleDeleteBooking}
-            />
+            >
+              <BookingDetails
+                booking={booking}
+                onEdit={handleEditBooking}
+                onDelete={handleDeleteBooking}
+              />
+            </div>
           ))}
         </div>
       </div>
