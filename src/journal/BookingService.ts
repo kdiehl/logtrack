@@ -22,6 +22,7 @@ class BookingService {
       date: new Date().toISOString().split("T")[0],
       ticketId,
       startTime: roundedStartTime,
+      bookedInJira: false,
     };
     await db.bookings.add(newBooking);
   }
@@ -37,10 +38,6 @@ class BookingService {
     booking.endTime = this.roundToNearestQuarterHour(
       new Date(endTime),
     ).toISOString();
-
-    // if (booking.startTime === booking.endTime) {
-    //   return;
-    // }
 
     await db.bookings.put(booking);
     await this.stopOngoingBooking(await db.bookings.toArray());

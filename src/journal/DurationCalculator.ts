@@ -1,7 +1,7 @@
 import { Booking } from "./Booking";
 
 class DurationCalculator {
-  public calculateTotalTime(entries: Booking[]) {
+  public calculateTotalTime(entries: Booking[]): number {
     const totalTimeInMs = entries
       .filter((entry) => entry.endTime)
       .reduce((acc, entry) => {
@@ -10,7 +10,7 @@ class DurationCalculator {
         return acc + (end - start);
       }, 0);
     const totalTimeInHours = totalTimeInMs / (1000 * 60 * 60);
-    return totalTimeInHours.toFixed(2) + "h";
+    return Number(totalTimeInHours.toFixed(2));
   }
 }
 

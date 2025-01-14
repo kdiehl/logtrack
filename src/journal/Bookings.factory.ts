@@ -9,6 +9,7 @@ export const BookingFactory = makeFactory<Booking>({
   date: each(() => faker.date.past().toISOString()),
   startTime: "",
   endTime: "",
+  bookedInJira: false,
 })
   .withDerivation("startTime", (booking) => {
     return moment(booking.date)
@@ -17,6 +18,6 @@ export const BookingFactory = makeFactory<Booking>({
   })
   .withDerivation("endTime", (booking) => {
     return moment(booking.startTime)
-      .add(faker.number.int({ min: 1, max: 8, multipleOf: 15 }), "minutes")
+      .add(faker.number.int({ min: 1, max: 100, multipleOf: 15 }), "minutes")
       .toISOString();
   });

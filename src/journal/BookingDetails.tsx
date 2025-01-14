@@ -1,9 +1,9 @@
-// src/journal/Booking.tsx
+// src/journal/BookingDetails.tsx
 import React, { useState } from "react";
 import { Booking } from "./Booking";
 import CustomButton from "../components/CustomButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faPen, faTrash, faCheck } from "@fortawesome/free-solid-svg-icons";
 import BookingDeleteConfirmationModal from "./BookingDeleteConfirmationModal";
 
 interface BookingProps {
@@ -41,7 +41,10 @@ const BookingDetails: React.FC<BookingProps> = ({
         {formatTime(booking.startTime)} -{" "}
         {booking.endTime ? formatTime(booking.endTime) : "Now"}
       </p>
-      <div className="flex space-x-2">
+      <div className="flex space-x-2 items-center">
+        {booking.bookedInJira && (
+          <FontAwesomeIcon icon={faCheck} className="text-green-500" />
+        )}
         <CustomButton preset="secondary" onClick={() => onEdit(booking)}>
           <FontAwesomeIcon icon={faPen} />
         </CustomButton>

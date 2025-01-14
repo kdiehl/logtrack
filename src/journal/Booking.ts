@@ -4,4 +4,5 @@ export interface Booking {
   date: string; // ISO string format
   startTime: string; // ISO string format
   endTime?: string; // ISO string format
+  bookedInJira: boolean; // New flag
 }

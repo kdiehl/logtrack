@@ -12,7 +12,11 @@ import {
   faPlay,
   faStop,
   faChevronDown,
+  faCheck,
+  faBook,
 } from "@fortawesome/free-solid-svg-icons";
+import JiraBookingService from "../utils/JiraBookingService";
+import { db } from "../utils/db";
 
 interface JournalEntryProps {
   date: string;
@@ -39,7 +43,7 @@ const JournalEntry: React.FC<JournalEntryProps> = ({
   handleDeleteBooking,
   ticket,
 }) => {
-  const { url } = useSettings();
+  const { url, jiraAccessToken } = useSettings();
   const ticketUrl = `${url}/${ticket.title}`;
   const lastBooking = entriesByTicket[entriesByTicket.length - 1];
   const canStartNewBooking = !!lastBooking?.endTime;
@@ -50,6 +54,25 @@ const JournalEntry: React.FC<JournalEntryProps> = ({
     setIsCollapsed(!isCollapsed);
   };
 
+  const allBookingsInJira = entriesByTicket.every(
+    (booking) => booking.bookedInJira,
+  );
+
+  const jiraBookingService = new JiraBookingService(url, jiraAccessToken);
+
+  const handleBookInJira = async () => {
+    const totalDuration =
+      durationCalculator.calculateTotalTime(entriesByTicket);
+    try {
+      await jiraBookingService.createBooking(ticket.title, totalDuration);
+      for (const booking of entriesByTicket) {
+        booking.bookedInJira = true;
+        await db.bookings.put(booking);
+      }
+    } catch (error) {
+      console.error("Failed to create booking in Jira:", error);
+    }
+  };
   return (
     <div key={`${date}-${ticket.id}`}>
       <div className="flex items-start mb-2 justify-between">
@@ -78,6 +101,9 @@ const JournalEntry: React.FC<JournalEntryProps> = ({
           </div>
         </div>
         <div className="flex items-center">
+          {allBookingsInJira && (
+            <FontAwesomeIcon icon={faCheck} className="text-green-500 mr-2" />
+          )}
           <div className="mr-2">
             <CustomButton preset="secondary" onClick={toggleCollapse}>
               <FontAwesomeIcon
@@ -88,7 +114,12 @@ const JournalEntry: React.FC<JournalEntryProps> = ({
               />
             </CustomButton>
           </div>
-          <div>{durationCalculator.calculateTotalTime(entriesByTicket)}</div>
+          <div>{durationCalculator.calculateTotalTime(entriesByTicket)}h</div>
+          <div className="ml-2">
+            <CustomButton preset="submit" onClick={handleBookInJira}>
+              <FontAwesomeIcon icon={faBook} />
+            </CustomButton>
+          </div>
         </div>
       </div>
       <div

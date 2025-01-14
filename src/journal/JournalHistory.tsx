@@ -76,9 +76,9 @@ const JournalHistory: React.FC<JournalHistoryProps> = ({
       >
         <ul className="space-y-4">
           {sortedDates.map((date) => {
-            const totalTime = durationCalculator.calculateTotalTime(
+            const totalTime = `${durationCalculator.calculateTotalTime(
               Object.values(groupedEntries[date]).flat(),
-            );
+            )}h`;
             return (
               <li key={date}>
                 <Headline preset="h2">

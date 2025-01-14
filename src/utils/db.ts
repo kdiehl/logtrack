@@ -8,6 +8,7 @@ export interface SettingsModel {
   id?: number;
   theme: Theme;
   url: string;
+  jiraAccessToken: string;
 }
 
 class AppDatabase extends Dexie {
@@ -18,9 +19,9 @@ class AppDatabase extends Dexie {
   constructor() {
     super("AppDatabase");
     this.version(1).stores({
-      bookings: "++id, date, ticketId, startTime, endTime",
+      bookings: "++id, date, ticketId, startTime, endTime, bookedInJira",
       tickets: "++id, title, status, description",
-      settings: "++id, theme, url",
+      settings: "++id, theme, url, jiraAccessToken", // Updated schema
     });
     this.bookings = this.table("bookings");
     this.tickets = this.table("tickets");

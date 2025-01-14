@@ -1,6 +1,6 @@
 // src/utils/db.test.ts
 import { db, SettingsModel } from "./db";
-import { Booking } from "../journal/Booking";
+import { BookingFactory } from "../journal/Bookings.factory";
 import { Ticket } from "../tickets/Ticket";
 import { Theme } from "../settings/Theme";
 
@@ -21,30 +21,18 @@ describe("AppDatabase", () => {
 
   describe("Bookings", () => {
     it("should add a booking", async () => {
-      const booking: Booking = {
-        id: 1,
-        date: new Date().toISOString(),
-        ticketId: 1,
-        startTime: new Date().toISOString(),
-        endTime: new Date().toISOString(),
-      };
+      const booking = BookingFactory.build();
       await db.bookings.add(booking);
-      const result = await db.bookings.get(1);
+      const result = await db.bookings.get(booking.id);
       expect(result).toEqual(booking);
     });
 
     it("should update a booking", async () => {
-      const booking: Booking = {
-        id: 1,
-        date: new Date().toISOString(),
-        ticketId: 1,
-        startTime: new Date().toISOString(),
-        endTime: new Date().toISOString(),
-      };
+      const booking = BookingFactory.build();
       await db.bookings.add(booking);
       booking.date = new Date().toISOString();
       await db.bookings.put(booking);
-      const result = await db.bookings.get(1);
+      const result = await db.bookings.get(booking.id);
       expect(result?.date).toEqual(booking.date);
     });
 
@@ -92,6 +80,7 @@ describe("AppDatabase", () => {
         id: 1,
         theme: Theme.Dark,
         url: "http://example.com",
+        jiraAccessToken: "",
       };
       await db.settings.add(setting);
       const result = await db.settings.get(1);
