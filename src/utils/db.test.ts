@@ -2,6 +2,7 @@
 import { db, SettingsModel } from "./db";
 import { Booking } from "../journal/Booking";
 import { Ticket } from "../tickets/Ticket";
+import { Theme } from "../settings/Theme";
 
 describe("AppDatabase", () => {
   beforeAll(async () => {
@@ -89,7 +90,7 @@ describe("AppDatabase", () => {
     it("should add a setting", async () => {
       const setting: SettingsModel = {
         id: 1,
-        theme: "dark",
+        theme: Theme.Dark,
         url: "http://example.com",
       };
       await db.settings.add(setting);

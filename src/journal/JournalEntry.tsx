@@ -6,7 +6,7 @@ import BookingDetails from "./BookingDetails";
 import { Ticket } from "../tickets/Ticket";
 import { durationCalculator } from "./DurationCalculator";
 import Link from "../components/Link";
-import { useSettings } from "../contexts/SettingsContext";
+import { useSettings } from "../settings/SettingsContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlay,
@@ -42,7 +42,7 @@ const JournalEntry: React.FC<JournalEntryProps> = ({
   const { url } = useSettings();
   const ticketUrl = `${url}/${ticket.title}`;
   const lastBooking = entriesByTicket[entriesByTicket.length - 1];
-  const canStartNewBooking = !!(lastBooking && lastBooking.endTime);
+  const canStartNewBooking = !!lastBooking?.endTime;
   const canStopBooking = lastBooking && !lastBooking.endTime;
   const pastDate = isPastDate(date);
   const [isCollapsed, setIsCollapsed] = React.useState(true);

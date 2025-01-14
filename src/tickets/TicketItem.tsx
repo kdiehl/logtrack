@@ -5,7 +5,7 @@ import CustomButton from "../components/CustomButton";
 import Card from "../components/Card";
 import Headline from "../components/Headline";
 import Link from "../components/Link";
-import { useSettings } from "../contexts/SettingsContext";
+import { useSettings } from "../settings/SettingsContext";
 import TicketEditModal from "./TicketEditModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {

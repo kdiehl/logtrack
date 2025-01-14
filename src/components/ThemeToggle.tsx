@@ -1,6 +1,6 @@
 import React from "react";
 import { SunIcon, MoonIcon } from "@heroicons/react/24/outline";
-import { useSettings } from "../contexts/SettingsContext";
+import { useSettings } from "../settings/SettingsContext";
 import { Theme } from "../settings/Theme";
 
 const ThemeToggle: React.FC = () => {

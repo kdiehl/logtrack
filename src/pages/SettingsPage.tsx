@@ -1,6 +1,6 @@
 import React from "react";
 import Headline from "../components/Headline";
-import { useSettings } from "../contexts/SettingsContext";
+import { useSettings } from "../settings/SettingsContext";
 import { Theme } from "../settings/Theme";
 
 const SettingsPage: React.FC = () => {

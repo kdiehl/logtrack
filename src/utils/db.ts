@@ -2,10 +2,11 @@
 import Dexie from "dexie";
 import { Booking } from "../journal/Booking";
 import { Ticket } from "../tickets/Ticket";
+import { Theme } from "../settings/Theme";
 
 export interface SettingsModel {
   id?: number;
-  theme: string;
+  theme: Theme;
   url: string;
 }
 

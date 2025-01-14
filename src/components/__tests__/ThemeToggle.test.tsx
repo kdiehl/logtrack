@@ -1,9 +1,9 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react";
 import ThemeToggle from "../ThemeToggle";
-import { useSettings } from "../../contexts/SettingsContext";
+import { useSettings } from "../../settings/SettingsContext";
 
-jest.mock("../../contexts/SettingsContext");
+jest.mock("../../settings/SettingsContext");
 
 describe("ThemeToggle", () => {
   const mockSetTheme = jest.fn();

@@ -1,13 +1,7 @@
-// src/contexts/SettingsContext.tsx
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { createContext, useContext, useMemo, useEffect } from "react";
 import { db } from "../utils/db";
-import { Theme } from "../settings/Theme";
+import { Theme } from "./Theme";
+import { useLiveQuery } from "dexie-react-hooks";
 
 interface SettingsContextProps {
   theme: Theme;
@@ -31,32 +25,21 @@ function applyTheme(theme: Theme) {
 export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [theme, setTheme] = useState<Theme>(Theme.Light);
-  const [url, setUrl] = useState("");
+  const settings = useLiveQuery(() => db.settings.toArray(), []);
+
+  const theme = settings?.[0]?.theme ?? Theme.Light;
+  const url = settings?.[0]?.url ?? "";
 
   useEffect(() => {
     applyTheme(theme);
   }, [theme]);
 
-  useEffect(() => {
-    const loadSettings = async () => {
-      const settings = await db.settings.toArray();
-      if (settings.length > 0) {
-        setTheme(settings[0].theme as Theme);
-        setUrl(settings[0].url || "");
-      }
-    };
-    loadSettings().catch(console.error);
-  }, []);
-
-  const handleSetTheme = async (theme: Theme) => {
-    setTheme(theme);
-    await db.settings.put({ id: 1, theme, url });
+  const handleSetTheme = async (newTheme: Theme) => {
+    await db.settings.put({ id: 1, theme: newTheme, url });
   };
 
-  const handleSetUrl = async (url: string) => {
-    setUrl(url);
-    await db.settings.put({ id: 1, theme, url });
+  const handleSetUrl = async (newUrl: string) => {
+    await db.settings.put({ id: 1, theme, url: newUrl });
   };
 
   const contextValue = useMemo(

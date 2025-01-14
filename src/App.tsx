@@ -6,7 +6,7 @@ import ArchivedTickets from "./tickets/ArchivedTickets";
 import Navbar from "./components/Navbar";
 import "./App.css";
 import ActiveTickets from "./tickets/ActiveTickets";
-import { SettingsProvider } from "./contexts/SettingsContext";
+import { SettingsProvider } from "./settings/SettingsContext";
 import SettingsPage from "./pages/SettingsPage";
 
 const App: React.FC = () => {
