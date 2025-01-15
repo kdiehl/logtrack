@@ -1,5 +1,5 @@
 import React from "react";
-import { fireEvent, render } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import TextAreaField from "../TextAreaField";
 
 describe("TextAreaField", () => {
@@ -9,7 +9,7 @@ describe("TextAreaField", () => {
   const placeholderAttribute = "Enter your text here";
 
   it("renders with correct initial value", () => {
-    const { getByPlaceholderText } = render(
+    render(
       <TextAreaField
         name="test"
         placeholder={placeholderText}
@@ -17,12 +17,14 @@ describe("TextAreaField", () => {
         onChange={() => {}}
       />,
     );
-    expect(getByPlaceholderText(placeholderText)).toHaveValue(initialValue);
+    expect(screen.getByPlaceholderText(placeholderText)).toHaveValue(
+      initialValue,
+    );
   });
 
   it("calls onChange handler when text is changed", () => {
     const handleChange = jest.fn();
-    const { getByPlaceholderText } = render(
+    render(
       <TextAreaField
         name="test"
         placeholder={placeholderText}
@@ -30,14 +32,14 @@ describe("TextAreaField", () => {
         onChange={handleChange}
       />,
     );
-    fireEvent.change(getByPlaceholderText(placeholderText), {
+    fireEvent.change(screen.getByPlaceholderText(placeholderText), {
       target: { value: "New value" },
     });
     expect(handleChange).toHaveBeenCalledTimes(1);
   });
 
   it("renders with correct name attribute", () => {
-    const { getByPlaceholderText } = render(
+    render(
       <TextAreaField
         name={nameAttribute}
         placeholder={placeholderText}
@@ -45,14 +47,14 @@ describe("TextAreaField", () => {
         onChange={() => {}}
       />,
     );
-    expect(getByPlaceholderText(placeholderText)).toHaveAttribute(
+    expect(screen.getByPlaceholderText(placeholderText)).toHaveAttribute(
       "name",
       nameAttribute,
     );
   });
 
   it("renders with correct placeholder", () => {
-    const { getByPlaceholderText } = render(
+    render(
       <TextAreaField
         name="test"
         placeholder={placeholderAttribute}
@@ -60,11 +62,13 @@ describe("TextAreaField", () => {
         onChange={() => {}}
       />,
     );
-    expect(getByPlaceholderText(placeholderAttribute)).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText(placeholderAttribute),
+    ).toBeInTheDocument();
   });
 
   it("handles empty value correctly", () => {
-    const { getByPlaceholderText } = render(
+    render(
       <TextAreaField
         name="test"
         placeholder={placeholderText}
@@ -72,6 +76,6 @@ describe("TextAreaField", () => {
         onChange={() => {}}
       />,
     );
-    expect(getByPlaceholderText(placeholderText)).toHaveValue("");
+    expect(screen.getByPlaceholderText(placeholderText)).toHaveValue("");
   });
 });

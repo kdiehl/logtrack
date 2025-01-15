@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, screen } from "@testing-library/react";
 import ThemeToggle from "../ThemeToggle";
 import { useSettings } from "../../settings/SettingsContext";
 
@@ -19,8 +19,8 @@ describe("ThemeToggle", () => {
   });
 
   it("renders with light theme initially", () => {
-    const { getByRole } = render(<ThemeToggle />);
-    expect(getByRole("checkbox")).not.toBeChecked();
+    render(<ThemeToggle />);
+    expect(screen.getByRole("checkbox")).not.toBeChecked();
   });
 
   it("renders with dark theme initially", () => {
@@ -28,13 +28,13 @@ describe("ThemeToggle", () => {
       theme: darkTheme,
       setTheme: mockSetTheme,
     });
-    const { getByRole } = render(<ThemeToggle />);
-    expect(getByRole("checkbox")).toBeChecked();
+    render(<ThemeToggle />);
+    expect(screen.getByRole("checkbox")).toBeChecked();
   });
 
   it("toggles to dark theme when clicked", () => {
-    const { getByRole } = render(<ThemeToggle />);
-    fireEvent.click(getByRole("checkbox"));
+    render(<ThemeToggle />);
+    fireEvent.click(screen.getByRole("checkbox"));
     expect(mockSetTheme).toHaveBeenCalledWith(darkTheme);
   });
 
@@ -43,28 +43,28 @@ describe("ThemeToggle", () => {
       theme: darkTheme,
       setTheme: mockSetTheme,
     });
-    const { getByRole } = render(<ThemeToggle />);
-    fireEvent.click(getByRole("checkbox"));
+    render(<ThemeToggle />);
+    fireEvent.click(screen.getByRole("checkbox"));
     expect(mockSetTheme).toHaveBeenCalledWith(lightTheme);
   });
 
   it("updates to dark theme when theme changes in the database", () => {
-    const { rerender, getByRole } = render(<ThemeToggle />);
+    const { rerender } = render(<ThemeToggle />);
     (useSettings as jest.Mock).mockReturnValue({
       theme: darkTheme,
       setTheme: mockSetTheme,
     });
     rerender(<ThemeToggle />);
-    expect(getByRole("checkbox")).toBeChecked();
+    expect(screen.getByRole("checkbox")).toBeChecked();
   });
 
   it("updates to light theme when theme changes in the database", () => {
-    const { rerender, getByRole } = render(<ThemeToggle />);
+    const { rerender } = render(<ThemeToggle />);
     (useSettings as jest.Mock).mockReturnValue({
       theme: lightTheme,
       setTheme: mockSetTheme,
     });
     rerender(<ThemeToggle />);
-    expect(getByRole("checkbox")).not.toBeChecked();
+    expect(screen.getByRole("checkbox")).not.toBeChecked();
   });
 });

@@ -1,4 +1,4 @@
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, screen } from "@testing-library/react";
 import InputField from "../InputField";
 
 describe("InputField component", () => {
@@ -10,7 +10,7 @@ describe("InputField component", () => {
     "w-full p-2 mb-4 border border-gray-300 dark:bg-gray-600 dark:border-gray-500 rounded";
 
   it("renders with correct initial value", () => {
-    const { getByDisplayValue } = render(
+    render(
       <InputField
         name={nameAttribute}
         placeholder={placeholderText}
@@ -18,11 +18,11 @@ describe("InputField component", () => {
         onChange={() => {}}
       />,
     );
-    expect(getByDisplayValue(initialValue)).toBeInTheDocument();
+    expect(screen.getByDisplayValue(initialValue)).toBeInTheDocument();
   });
 
   it("renders with correct placeholder", () => {
-    const { getByPlaceholderText } = render(
+    render(
       <InputField
         name={nameAttribute}
         placeholder={placeholderText}
@@ -30,12 +30,12 @@ describe("InputField component", () => {
         onChange={() => {}}
       />,
     );
-    expect(getByPlaceholderText(placeholderText)).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(placeholderText)).toBeInTheDocument();
   });
 
   it("calls onChange handler when value changes", () => {
     const handleChange = jest.fn();
-    const { getByDisplayValue } = render(
+    render(
       <InputField
         name={nameAttribute}
         placeholder={placeholderText}
@@ -43,14 +43,14 @@ describe("InputField component", () => {
         onChange={handleChange}
       />,
     );
-    fireEvent.change(getByDisplayValue(initialValue), {
+    fireEvent.change(screen.getByDisplayValue(initialValue), {
       target: { value: changedValue },
     });
     expect(handleChange).toHaveBeenCalledTimes(1);
   });
 
   it("renders with correct name attribute", () => {
-    const { getByDisplayValue } = render(
+    render(
       <InputField
         name={nameAttribute}
         placeholder={placeholderText}
@@ -58,14 +58,14 @@ describe("InputField component", () => {
         onChange={() => {}}
       />,
     );
-    expect(getByDisplayValue(initialValue)).toHaveAttribute(
+    expect(screen.getByDisplayValue(initialValue)).toHaveAttribute(
       "name",
       nameAttribute,
     );
   });
 
   it("renders with correct classes", () => {
-    const { container } = render(
+    render(
       <InputField
         name={nameAttribute}
         placeholder={placeholderText}
@@ -73,6 +73,9 @@ describe("InputField component", () => {
         onChange={() => {}}
       />,
     );
-    expect(container.firstChild).toHaveClass(inputClass);
+    const inputElement = screen.getByDisplayValue(
+      initialValue,
+    ) as HTMLInputElement;
+    expect(inputElement).toHaveClass(inputClass);
   });
 });

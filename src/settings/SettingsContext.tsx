@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useMemo, useEffect } from "react";
+import React, {
+  createContext,
+  useContext,
+  useMemo,
+  useEffect,
+  useCallback,
+} from "react";
 import { db } from "../utils/db";
 import { Theme } from "./Theme";
 import { useLiveQuery } from "dexie-react-hooks";
@@ -34,17 +40,23 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
     applyTheme(theme);
   }, [theme]);
 
-  const handleSetTheme = async (newTheme: Theme) => {
-    await db.settings.put({ id: 1, theme: newTheme, url });
-  };
+  const handleSetTheme = useCallback(
+    async (newTheme: Theme) => {
+      await db.settings.put({ id: 1, theme: newTheme, url });
+    },
+    [url],
+  );
 
-  const handleSetUrl = async (newUrl: string) => {
-    await db.settings.put({ id: 1, theme, url: newUrl });
-  };
+  const handleSetUrl = useCallback(
+    async (newUrl: string) => {
+      await db.settings.put({ id: 1, theme, url: newUrl });
+    },
+    [theme],
+  );
 
   const contextValue = useMemo(
     () => ({ theme, url, setTheme: handleSetTheme, setUrl: handleSetUrl }),
-    [theme, url],
+    [theme, url, handleSetTheme, handleSetUrl],
   );
 
   return (
