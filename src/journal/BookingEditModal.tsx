@@ -33,6 +33,12 @@ const BookingEditModal: React.FC<BookingEditModalProps> = ({
     return new Date(date.getTime() - tzOffset).toISOString().slice(0, 16);
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === "Enter") {
+      handleSave();
+    }
+  };
+
   if (!booking) return null;
 
   const handleSave = () => {
@@ -51,6 +57,7 @@ const BookingEditModal: React.FC<BookingEditModalProps> = ({
           type="datetime-local"
           value={startTime}
           onChange={(e) => setStartTime(e.target.value)}
+          onKeyDown={handleKeyDown}
           className="w-full p-2 border border-gray-300 dark:border-gray-400 dark:bg-gray-500 rounded"
         />
       </div>
@@ -63,6 +70,7 @@ const BookingEditModal: React.FC<BookingEditModalProps> = ({
           type="datetime-local"
           value={endTime}
           onChange={(e) => setEndTime(e.target.value)}
+          onKeyDown={handleKeyDown}
           className="w-full p-2 border border-gray-300 dark:border-gray-400 dark:bg-gray-500 rounded"
         />
       </div>

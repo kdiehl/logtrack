@@ -10,7 +10,7 @@ import CustomButton from "../components/CustomButton";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const ActiveTickets: React.FC = () => {
+const OccasionalTickets: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const tickets = useLiveQuery(() => db.tickets.toArray());
 
@@ -21,7 +21,7 @@ const ActiveTickets: React.FC = () => {
       id: Date.now(),
       title: ticket.title || "",
       description: ticket.description || "",
-      status: "active",
+      status: "occasional",
     };
     await db.tickets.add(newTicket);
     setIsModalOpen(false);
@@ -49,7 +49,7 @@ const ActiveTickets: React.FC = () => {
     <div>
       <div className="flex items-center mb-4">
         <div className="mr-2">
-          <Headline>Tickets</Headline>
+          <Headline>Occasional Tickets</Headline>
         </div>
         <CustomButton preset="submit" onClick={() => setIsModalOpen(true)}>
           <FontAwesomeIcon icon={faPlus} />
@@ -57,7 +57,7 @@ const ActiveTickets: React.FC = () => {
       </div>
       <ul className="mt-5 mb-5 space-y-4">
         {tickets
-          .filter((ticket) => ticket.status === "active")
+          .filter((ticket) => ticket.status === "occasional")
           .map((ticket) => (
             <TicketItem
               key={ticket.id}
@@ -77,4 +77,4 @@ const ActiveTickets: React.FC = () => {
   );
 };
 
-export default ActiveTickets;
+export default OccasionalTickets;
