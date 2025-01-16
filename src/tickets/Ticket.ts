@@ -3,5 +3,5 @@ export interface Ticket {
   id: number;
   title: string;
   description: string;
-  status: "active" | "archived";
+  status: "active" | "archived" | "occasional";
 }

@@ -2,6 +2,7 @@
 import React from "react";
 import ActiveTickets from "../tickets/ActiveTickets";
 import JournalList from "../journal/JournalList";
+import OccasionalTickets from "../tickets/OccasionalTickets";
 
 const HomePage: React.FC = () => {
   return (
@@ -11,6 +12,7 @@ const HomePage: React.FC = () => {
       </div>
       <div className="flex-1 p-5 overflow-y-auto">
         <ActiveTickets />
+        <OccasionalTickets />
       </div>
     </div>
   );

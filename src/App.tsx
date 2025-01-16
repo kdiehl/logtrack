@@ -13,16 +13,16 @@ const App: React.FC = () => {
   return (
     <SettingsProvider>
       <Router>
-        <div className="flex flex-col min-h-screen bg-white dark:bg-gray-700 dark:text-white">
+        <div className="flex flex-col h-screen bg-white dark:bg-gray-700 dark:text-white">
           <Navbar />
-          <div className="flex flex-1">
+          <div className="flex flex-1 overflow-y-auto">
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/settings" element={<SettingsPage />} />
               <Route
                 path="/tickets"
                 element={
-                  <div className="flex-1 p-5 overflow-y-auto">
+                  <div className="flex-1 p-5">
                     <ActiveTickets />
                   </div>
                 }
@@ -30,7 +30,7 @@ const App: React.FC = () => {
               <Route
                 path="/tickets/archive"
                 element={
-                  <div className="flex-1 p-5 overflow-y-auto">
+                  <div className="flex-1 p-5">
                     <ArchivedTickets />
                   </div>
                 }
