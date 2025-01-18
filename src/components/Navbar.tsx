@@ -22,6 +22,9 @@ const Navbar: React.FC = () => {
           <div className={navItemClassName}>
             <Link to="/settings">Settings</Link>
           </div>
+          <div className={navItemClassName}>
+            <Link to="/timeline">Timeline</Link>
+          </div>
           <ThemeToggle />
         </div>
       </div>

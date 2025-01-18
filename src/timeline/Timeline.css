@@ -1,0 +1,73 @@
+
+
+.timeline-header {
+  display: flex;
+  justify-content: space-between;
+  background-color: #f0f0f0;
+}
+
+.timeline-grid-header {
+  display: grid;
+  grid-template-columns: 60px repeat(6, 1fr);
+  width: 100%;
+}
+
+.timeline-header > div {
+  flex: 1;
+  text-align: center;
+}
+
+.timeline-body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 60px repeat(6, 1fr);
+  overflow-y: auto;
+  position: relative;
+  height: 1020px; /* 17 hours * 60 minutes */
+}
+
+.timeline-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  grid-template-columns: 60px repeat(6, 1fr);
+  grid-template-rows: repeat(18, 60px);
+}
+
+.timeline-hour {
+  border-top: 1px solid #ddd;
+  position: relative;
+  padding-left: 5px;
+  box-sizing: border-box;
+  grid-column: span 7;
+}
+
+.timeline-booking {
+  position: absolute;
+  left: 60px;
+  right: 0;
+  background-color: rgba(0, 123, 255, 0.63);
+  border: 1px solid #007bff;
+  padding: 5px;
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+
+.current-day {
+  background-color: #fffca5;
+  font-weight: bold;
+}
+
+.current-time-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: red;
+  z-index: 1;
+}
+
+/* Add more styles for bookings and time slots */

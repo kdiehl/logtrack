@@ -8,6 +8,7 @@ import "./App.css";
 import ActiveTickets from "./tickets/ActiveTickets";
 import { SettingsProvider } from "./settings/SettingsContext";
 import SettingsPage from "./pages/SettingsPage";
+import Timeline from "./timeline/Timeline";
 
 const App: React.FC = () => {
   return (
@@ -32,6 +33,14 @@ const App: React.FC = () => {
                 element={
                   <div className="flex-1 p-5">
                     <ArchivedTickets />
+                  </div>
+                }
+              />
+              <Route
+                path="/timeline"
+                element={
+                  <div className="flex-1 p-5">
+                    <Timeline />
                   </div>
                 }
               />
