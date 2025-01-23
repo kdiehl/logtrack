@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "../utils/db";
-import "./Timeline.css";
 import TimelineElement from "./TimelineElement";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import TimelineControls from "./TimelineControls";
+import { calculateCurrentTimePosition } from "./TimelineCalculator";
 
 const Timeline: React.FC = () => {
   const bookings = useLiveQuery(() => db.bookings.toArray(), []);
   const tickets = useLiveQuery(() => db.tickets.toArray(), []);
   const [currentTimePosition, setCurrentTimePosition] = useState(0);
   const [weekOffset, setWeekOffset] = useState(0);
+
+  const HOUR_HEIGHT = 60;
+  const START_HOUR = 5;
+  const UPDATE_INTERVAL = 60000;
 
   const handleSegmentChange = (segment: string) => {
     if (segment === "Today") {
@@ -24,15 +27,12 @@ const Timeline: React.FC = () => {
 
   useEffect(() => {
     const updateCurrentTimePosition = () => {
-      const now = new Date();
-      const hours = now.getHours();
-      const minutes = now.getMinutes();
-      const position = (hours - 5) * 50 + (minutes / 60) * 50;
+      const position = calculateCurrentTimePosition(START_HOUR, HOUR_HEIGHT);
       setCurrentTimePosition(position);
     };
 
     updateCurrentTimePosition();
-    const interval = setInterval(updateCurrentTimePosition, 60000); // Update every minute
+    const interval = setInterval(updateCurrentTimePosition, UPDATE_INTERVAL); // Update every minute
 
     return () => clearInterval(interval);
   }, []);
@@ -63,33 +63,14 @@ const Timeline: React.FC = () => {
   return (
     <div className="flex flex-col h-full">
       <div className="flex justify-between items-center mb-4">
-        <div className="flex">
-          <button
-            className="px-4 py-2 mx-2 rounded bg-gray-200 dark:bg-gray-700 text-black dark:text-white"
-            onClick={() => handleSegmentChange("Last Week")}
-          >
-            <FontAwesomeIcon icon={faArrowLeft} />
-          </button>
-          <button
-            className="px-4 py-2 mx-2 rounded bg-gray-200 dark:bg-gray-700 text-black dark:text-white"
-            onClick={() => handleSegmentChange("Today")}
-          >
-            Today
-          </button>
-          <button
-            className="px-4 py-2 mx-2 rounded bg-gray-200 dark:bg-gray-700 text-black dark:text-white"
-            onClick={() => handleSegmentChange("Next Week")}
-          >
-            <FontAwesomeIcon icon={faArrowRight} />
-          </button>
-        </div>
+        <TimelineControls handleSegmentChange={handleSegmentChange} />
         <div className="text-gray-700 dark:text-gray-300">
           {`${formatDate(startOfWeek)} - ${formatDate(endOfWeek)}`}
         </div>
       </div>
       <div className="flex justify-between bg-gray-100 dark:bg-gray-500 text-center">
-        <div className="timeline-grid-header">
-          <div className="timeline-hour-header"></div>
+        <div className="grid grid-cols-[60px_repeat(6,_1fr)] w-full">
+          <div></div>
           {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"].map((day, index) => (
             <div key={day} className={index + 1 === currentDay ? "bg-blue-200 dark:bg-blue-500 p-2" : "p-2"}>
               {day}
@@ -97,15 +78,15 @@ const Timeline: React.FC = () => {
           ))}
         </div>
       </div>
-      <div className="timeline-body">
-        <div className="timeline-grid">
+      <div className="flex-1 grid grid-cols-[60px_repeat(6,_1fr)] relative overflow-y-auto h-[1020px]">
+        <div className="absolute top-0 left-0 right-0 bottom-0 grid grid-cols-[60px_repeat(6,_1fr)] grid-rows-[repeat(18,_60px)]">
           {Array.from({ length: 18 }, (_, i) => (
-            <div key={i} className="timeline-hour">
-              {`${i + 5}:00`}
+            <div key={i} className="border-t border-gray-300 relative pl-1 box-border col-span-7">
+              {`${i + START_HOUR}:00`}
             </div>
           ))}
         </div>
-        <div className="current-time-line" style={{ top: `${currentTimePosition}px` }}></div>
+        <div className="absolute left-0 right-0 h-0.5 bg-red-500 z-10" style={{ top: `${currentTimePosition}px` }}></div>
         {bookings
           .filter((booking) => {
             const bookingDate = new Date(booking.date);
@@ -119,6 +100,8 @@ const Timeline: React.FC = () => {
                 key={booking.id}
                 booking={booking}
                 ticket={ticket}
+                hourHeight={HOUR_HEIGHT}
+                startHour={START_HOUR}
                 style={{
                   gridColumnStart: bookingDate + 1,
                   gridColumnEnd: bookingDate + 1,
