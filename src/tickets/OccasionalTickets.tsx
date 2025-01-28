@@ -55,7 +55,7 @@ const OccasionalTickets: React.FC = () => {
           <FontAwesomeIcon icon={faPlus} />
         </CustomButton>
       </div>
-      <ul className="mt-5 mb-5 space-y-4">
+      <div className="grid grid-cols-3 gap-4 mt-5 mb-4">
         {tickets
           .filter((ticket) => ticket.status === "occasional")
           .map((ticket) => (
@@ -67,7 +67,7 @@ const OccasionalTickets: React.FC = () => {
               onCreateBooking={onCreateBooking}
             />
           ))}
-      </ul>
+      </div>
       <CreateTicketModal
         createTicket={createTicket}
         isOpen={isModalOpen}

@@ -44,7 +44,8 @@
     "test:ci": "react-scripts test --watchAll=false --coverage --testResultsProcessor jest-sonar-reporter",
     "eject": "react-scripts eject",
     "prepare": "husky",
-    "release": "standard-version"
+    "release": "standard-version",
+    "serve": "npx serve -s build"
   },
   "eslintConfig": {
     "extends": [

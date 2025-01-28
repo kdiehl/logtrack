@@ -55,7 +55,7 @@ const ActiveTickets: React.FC = () => {
           <FontAwesomeIcon icon={faPlus} />
         </CustomButton>
       </div>
-      <ul className="mt-5 mb-5 space-y-4">
+      <div className="grid grid-cols-1 gap-4 mt-5 mb-5">
         {tickets
           .filter((ticket) => ticket.status === "active")
           .map((ticket) => (
@@ -67,7 +67,7 @@ const ActiveTickets: React.FC = () => {
               onCreateBooking={onCreateBooking}
             />
           ))}
-      </ul>
+      </div>
       <CreateTicketModal
         createTicket={createTicket}
         isOpen={isModalOpen}

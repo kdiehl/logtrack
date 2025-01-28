@@ -22,7 +22,7 @@ const ArchivedTickets: React.FC = () => {
   return (
     <div>
       <Headline preset="h2">Archived Tickets</Headline>
-      <ul className="mt-5 space-y-4">
+      <div className="grid grid-cols-1 gap-4 mt-5">
         {archivedTickets.map((ticket) => (
           <TicketItem
             key={ticket.id}
@@ -30,7 +30,7 @@ const ArchivedTickets: React.FC = () => {
             onUnarchive={handleUnarchive}
           />
         ))}
-      </ul>
+      </div>
     </div>
   );
 };
