@@ -2,17 +2,17 @@
 
 <div align="center">
 
-# Tracklog
+# Logtrack
 
-![Tracklog Logo](logo.png)
+![Logtrack Logo](logo.png)
 
-[![CI](https://github.com/kdiehl/tracklog/actions/workflows/ci.yml/badge.svg)](https://github.com/kdiehl/tracklog/actions/workflows/ci.yml)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=kdiehl_tracklog&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=kdiehl_tracklog)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=kdiehl_tracklog&metric=coverage)](https://sonarcloud.io/summary/new_code?id=kdiehl_tracklog)
+[![CI](https://github.com/kdiehl/logtrack/actions/workflows/ci.yml/badge.svg)](https://github.com/kdiehl/logtrack/actions/workflows/ci.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=kdiehl_logtrack&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=kdiehl_logtrack)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=kdiehl_logtrack&metric=coverage)](https://sonarcloud.io/summary/new_code?id=kdiehl_logtrack)
 </div>
 
 
-Tracklog is a web application designed to help users manage and track their time efficiently. This project is built
+Logtrack is a web application designed to help users manage and track their time efficiently. This project is built
 using React, TypeScript, and Dexie for IndexedDB management.
 
 ## 📋 Table of Contents
@@ -40,8 +40,8 @@ To get started with the Time Tracker application, follow these steps:
 
 1. **Clone the repository**:
    ```sh
-   git clone https://github.com/kdiehl/tracklog.git
-   cd tracklog
+   git clone https://github.com/kdiehl/logtrack.git
+   cd logtrack
    ```
 
 2. **Install dependencies**:

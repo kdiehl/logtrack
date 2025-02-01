@@ -8,7 +8,7 @@ const Navbar: React.FC = () => {
   return (
     <nav className="bg-blue-500 dark:bg-gray-600 p-4 text-white">
       <div className="container justify-between flex">
-        <h1 className="text-xl font-bold">Tracklog</h1>
+        <h1 className="text-xl font-bold">Logtrack</h1>
         <div className="flex justify-end">
           <div className={navItemClassName}>
             <Link to="/">Home</Link>
