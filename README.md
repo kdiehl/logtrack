@@ -7,8 +7,8 @@
 ![Logtrack Logo](logo.png)
 
 [![CI](https://github.com/kdiehl/logtrack/actions/workflows/ci.yml/badge.svg)](https://github.com/kdiehl/logtrack/actions/workflows/ci.yml)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=kdiehl_logtrack&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=kdiehl_logtrack)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=kdiehl_logtrack&metric=coverage)](https://sonarcloud.io/summary/new_code?id=kdiehl_logtrack)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=kdiehl_tracklog&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=kdiehl_tracklog)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=kdiehl_tracklog&metric=coverage)](https://sonarcloud.io/summary/new_code?id=kdiehl_tracklog)
 </div>
 
 
