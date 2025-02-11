@@ -20,10 +20,13 @@ const Navbar: React.FC = () => {
             <Link to="/tickets/archive">Archived Tickets</Link>
           </div>
           <div className={navItemClassName}>
-            <Link to="/settings">Settings</Link>
+            <Link to="/timeline">Timeline</Link>
           </div>
           <div className={navItemClassName}>
-            <Link to="/timeline">Timeline</Link>
+            <Link to="/reports">Reports</Link>
+          </div>
+          <div className={navItemClassName}>
+            <Link to="/settings">Settings</Link>
           </div>
           <ThemeToggle />
         </div>

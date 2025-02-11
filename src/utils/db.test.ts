@@ -19,6 +19,13 @@ describe("AppDatabase", () => {
     await db.settings.clear();
   });
 
+  it("should have the correct schema", async () => {
+    const stores = db.tables.map((table) => table.name);
+    expect(stores).toContain("bookings");
+    expect(stores).toContain("tickets");
+    expect(stores).toContain("settings");
+  });
+
   describe("Bookings", () => {
     it("should add a booking", async () => {
       const booking: Booking = {
@@ -92,6 +99,8 @@ describe("AppDatabase", () => {
         id: 1,
         theme: Theme.Dark,
         url: "http://example.com",
+        timelineDayTypes: ["Home", "Office"],
+        timelineWorkStatuses: ["Worked", "Holiday", "Sick", "Sick for Children"],
       };
       await db.settings.add(setting);
       const result = await db.settings.get(1);

@@ -8,6 +8,8 @@ export interface SettingsModel {
   id?: number;
   theme: Theme;
   url: string;
+  timelineDayTypes: string[];
+  timelineWorkStatuses: string[];
 }
 
 class AppDatabase extends Dexie {
@@ -20,7 +22,7 @@ class AppDatabase extends Dexie {
     this.version(1).stores({
       bookings: "++id, date, ticketId, startTime, endTime",
       tickets: "++id, title, status, description",
-      settings: "++id, theme, url",
+      settings: "++id, theme, url, timelineDayTypes, timelineWorkStatuses",
     });
     this.bookings = this.table("bookings");
     this.tickets = this.table("tickets");

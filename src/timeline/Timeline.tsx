@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "../utils/db";
 import TimelineElement from "./TimelineElement";
-import TimelineControls from "./TimelineControls";
+import SegmentControls, { Segment } from "../components/SegmentControls"; 
 import { calculateCurrentTimePosition } from "./TimelineCalculator";
+import DayPresence from "./DayPresence";
 
 const Timeline: React.FC = () => {
   const bookings = useLiveQuery(() => db.bookings.toArray(), []);
@@ -15,12 +16,27 @@ const Timeline: React.FC = () => {
   const START_HOUR = 5;
   const UPDATE_INTERVAL = 60000;
 
-  const handleSegmentChange = (segment: string) => {
-    if (segment === "Today") {
+  const [dayTypeSelections, setDayTypeSelections] = useState(Array(6).fill("Home"));
+  const [workStatusSelections, setWorkStatusSelections] = useState(Array(6).fill("Worked"));
+
+  const handleDayTypeChange = (index: number, value: string) => {
+    const newSelections = [...dayTypeSelections];
+    newSelections[index] = value;
+    setDayTypeSelections(newSelections);
+  };
+
+  const handleWorkStatusChange = (index: number, value: string) => {
+    const newSelections = [...workStatusSelections];
+    newSelections[index] = value;
+    setWorkStatusSelections(newSelections);
+  };
+
+  const handleSegmentChange = (segment: Segment) => {
+    if (segment === Segment.Now) {
       setWeekOffset(0);
-    } else if (segment === "Last Week") {
+    } else if (segment === Segment.Back) {
       setWeekOffset((prev) => prev - 1);
-    } else if (segment === "Next Week") {
+    } else if (segment === Segment.Next) {
       setWeekOffset((prev) => prev + 1);
     }
   };
@@ -63,7 +79,7 @@ const Timeline: React.FC = () => {
   return (
     <div className="flex flex-col h-full">
       <div className="flex justify-between items-center mb-4">
-        <TimelineControls handleSegmentChange={handleSegmentChange} />
+        <SegmentControls handleSegmentChange={handleSegmentChange} todayLabel="Today" />
         <div className="text-gray-700 dark:text-gray-300">
           {`${formatDate(startOfWeek)} - ${formatDate(endOfWeek)}`}
         </div>
@@ -75,6 +91,20 @@ const Timeline: React.FC = () => {
             <div key={day} className={index + 1 === currentDay ? "bg-blue-200 dark:bg-blue-500 p-2" : "p-2"}>
               {day}
             </div>
+          ))}
+        </div>
+      </div>
+      <div className="flex justify-between bg-gray-100 dark:bg-gray-500 text-center">
+        <div className="grid grid-cols-[60px_repeat(6,_1fr)] w-full">
+          <div></div>
+          {Array.from({ length: 6 }, (_, index) => (
+            <DayPresence
+              key={index}
+              initialDayType={dayTypeSelections[index]}
+              initialWorkStatus={workStatusSelections[index]}
+              onDayTypeChange={(value) => handleDayTypeChange(index, value)}
+              onWorkStatusChange={(value) => handleWorkStatusChange(index, value)}
+            />
           ))}
         </div>
       </div>

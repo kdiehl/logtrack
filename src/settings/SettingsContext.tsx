@@ -12,8 +12,12 @@ import { useLiveQuery } from "dexie-react-hooks";
 interface SettingsContextProps {
   theme: Theme;
   url: string;
+  timelineDayTypes: string[];
+  timelineWorkStatuses: string[];
   setTheme: (theme: Theme) => void;
   setUrl: (url: string) => void;
+  setTimelineDayTypes: (dayTypes: string[]) => void;
+  setTimelineWorkStatuses: (workStatuses: string[]) => void;
 }
 
 const SettingsContext = createContext<SettingsContextProps | undefined>(
@@ -35,6 +39,8 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const theme = settings?.[0]?.theme ?? Theme.Light;
   const url = settings?.[0]?.url ?? "";
+  const timelineDayTypes = settings?.[0]?.timelineDayTypes ?? ["Home", "Office"];
+  const timelineWorkStatuses = settings?.[0]?.timelineWorkStatuses ?? ["Worked", "Holiday", "Sick", "Sick for Children"];
 
   useEffect(() => {
     applyTheme(theme);
@@ -42,21 +48,44 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const handleSetTheme = useCallback(
     async (newTheme: Theme) => {
-      await db.settings.put({ id: 1, theme: newTheme, url });
+      await db.settings.put({ id: 1, theme: newTheme, url, timelineDayTypes, timelineWorkStatuses });
     },
-    [url],
+    [url, timelineDayTypes, timelineWorkStatuses],
   );
 
   const handleSetUrl = useCallback(
     async (newUrl: string) => {
-      await db.settings.put({ id: 1, theme, url: newUrl });
+      await db.settings.put({ id: 1, theme, url: newUrl, timelineDayTypes, timelineWorkStatuses });
     },
-    [theme],
+    [theme, timelineDayTypes, timelineWorkStatuses],
+  );
+
+  const handleSetTimelineDayTypes = useCallback(
+    async (newDayTypes: string[]) => {
+      await db.settings.put({ id: 1, theme, url, timelineDayTypes: newDayTypes, timelineWorkStatuses });
+    },
+    [theme, url, timelineWorkStatuses],
+  );
+
+  const handleSetTimelineWorkStatuses = useCallback(
+    async (newWorkStatuses: string[]) => {
+      await db.settings.put({ id: 1, theme, url, timelineDayTypes, timelineWorkStatuses: newWorkStatuses });
+    },
+    [theme, url, timelineDayTypes],
   );
 
   const contextValue = useMemo(
-    () => ({ theme, url, setTheme: handleSetTheme, setUrl: handleSetUrl }),
-    [theme, url, handleSetTheme, handleSetUrl],
+    () => ({
+      theme,
+      url,
+      timelineDayTypes,
+      timelineWorkStatuses,
+      setTheme: handleSetTheme,
+      setUrl: handleSetUrl,
+      setTimelineDayTypes: handleSetTimelineDayTypes,
+      setTimelineWorkStatuses: handleSetTimelineWorkStatuses,
+    }),
+    [theme, url, timelineDayTypes, timelineWorkStatuses, handleSetTheme, handleSetUrl, handleSetTimelineDayTypes, handleSetTimelineWorkStatuses],
   );
 
   return (
