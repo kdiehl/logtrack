@@ -2,34 +2,34 @@ import React, { useState } from "react";
 import { useSettings } from "../SettingsContext";
 
 const WorkStatusesSettings: React.FC = () => {
-  const { timelineWorkStatuses, setTimelineWorkStatuses } = useSettings();
+  const { attendances, setAttendances } = useSettings();
   const [newWorkStatus, setNewWorkStatus] = useState("");
   const [editingWorkStatus, setEditingWorkStatus] = useState<string | null>(null);
 
   const handleAddWorkStatus = () => {
-    if (newWorkStatus && !timelineWorkStatuses.includes(newWorkStatus)) {
-      setTimelineWorkStatuses([...timelineWorkStatuses, newWorkStatus]);
+    if (newWorkStatus && !attendances.includes(newWorkStatus)) {
+      setAttendances([...attendances, newWorkStatus]);
       setNewWorkStatus("");
     }
   };
 
   const handleEditWorkStatus = (index: number, value: string) => {
-    const updatedWorkStatuses = [...timelineWorkStatuses];
+    const updatedWorkStatuses = [...attendances];
     updatedWorkStatuses[index] = value;
-    setTimelineWorkStatuses(updatedWorkStatuses);
+    setAttendances(updatedWorkStatuses);
     setEditingWorkStatus(null);
   };
 
   const handleDeleteWorkStatus = (index: number) => {
-    const updatedWorkStatuses = timelineWorkStatuses.filter((_, i) => i !== index);
-    setTimelineWorkStatuses(updatedWorkStatuses);
+    const updatedWorkStatuses = attendances.filter((_, i) => i !== index);
+    setAttendances(updatedWorkStatuses);
   };
 
   return (
     <div>
-      <h3>Work Statuses</h3>
+      <h3>Attendances</h3>
       <ul>
-        {timelineWorkStatuses.map((status, index) => (
+        {attendances.map((status, index) => (
           <li key={status} className="flex items-center">
             {editingWorkStatus === status ? (
               <input
@@ -54,11 +54,11 @@ const WorkStatusesSettings: React.FC = () => {
         type="text"
         value={newWorkStatus}
         onChange={(e) => setNewWorkStatus(e.target.value)}
-        placeholder="Add new work status"
+        placeholder="Add new attendance"
         className="w-full p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-500 rounded"
       />
       <button onClick={handleAddWorkStatus} className="mt-2 p-2 bg-blue-500 text-white rounded">
-        Add Work Status
+        Add Attendance
       </button>
     </div>
   );

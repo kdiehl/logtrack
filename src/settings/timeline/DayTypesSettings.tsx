@@ -2,49 +2,49 @@ import React, { useState } from "react";
 import { useSettings } from "../SettingsContext";
 
 const DayTypesSettings: React.FC = () => {
-  const { timelineDayTypes, setTimelineDayTypes } = useSettings();
-  const [newDayType, setNewDayType] = useState("");
-  const [editingDayType, setEditingDayType] = useState<string | null>(null);
+  const { workplaces, setWorkplaces } = useSettings();
+  const [newWorkplace, setNewWorkplace] = useState("");
+  const [editingWorkplace, setEditingWorkplace] = useState<string | null>(null);
 
-  const handleAddDayType = () => {
-    if (newDayType && !timelineDayTypes.includes(newDayType)) {
-      setTimelineDayTypes([...timelineDayTypes, newDayType]);
-      setNewDayType("");
+  const handleAddWorkplace = () => {
+    if (newWorkplace && !workplaces.includes(newWorkplace)) {
+      setWorkplaces([...workplaces, newWorkplace]);
+      setNewWorkplace("");
     }
   };
 
-  const handleEditDayType = (index: number, value: string) => {
-    const updatedDayTypes = [...timelineDayTypes];
-    updatedDayTypes[index] = value;
-    setTimelineDayTypes(updatedDayTypes);
-    setEditingDayType(null);
+  const handleEditWorkplace = (index: number, value: string) => {
+    const updatedWorkplaces = [...workplaces];
+    updatedWorkplaces[index] = value;
+    setWorkplaces(updatedWorkplaces);
+    setEditingWorkplace(null);
   };
 
-  const handleDeleteDayType = (index: number) => {
-    const updatedDayTypes = timelineDayTypes.filter((_, i) => i !== index);
-    setTimelineDayTypes(updatedDayTypes);
+  const handleDeleteWorkplace = (index: number) => {
+    const updatedWorkplaces = workplaces.filter((_, i) => i !== index);
+    setWorkplaces(updatedWorkplaces);
   };
 
   return (
     <div>
-      <h3>Day Types</h3>
+      <h3>Workplaces</h3>
       <ul>
-        {timelineDayTypes.map((type, index) => (
+        {workplaces.map((type, index) => (
           <li key={type} className="flex items-center">
-            {editingDayType === type ? (
+            {editingWorkplace === type ? (
               <input
                 type="text"
                 value={type}
-                onChange={(e) => handleEditDayType(index, e.target.value)}
+                onChange={(e) => handleEditWorkplace(index, e.target.value)}
                 className="w-full p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-500 rounded"
               />
             ) : (
               <span>{type}</span>
             )}
-            <button onClick={() => setEditingDayType(type)} className="ml-2 p-2 bg-yellow-500 text-white rounded">
+            <button onClick={() => setEditingWorkplace(type)} className="ml-2 p-2 bg-yellow-500 text-white rounded">
               Edit
             </button>
-            <button onClick={() => handleDeleteDayType(index)} className="ml-2 p-2 bg-red-500 text-white rounded">
+            <button onClick={() => handleDeleteWorkplace(index)} className="ml-2 p-2 bg-red-500 text-white rounded">
               Delete
             </button>
           </li>
@@ -52,13 +52,13 @@ const DayTypesSettings: React.FC = () => {
       </ul>
       <input
         type="text"
-        value={newDayType}
-        onChange={(e) => setNewDayType(e.target.value)}
-        placeholder="Add new day type"
+        value={newWorkplace}
+        onChange={(e) => setNewWorkplace(e.target.value)}
+        placeholder="Add new workplace"
         className="w-full p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-500 rounded"
       />
-      <button onClick={handleAddDayType} className="mt-2 p-2 bg-blue-500 text-white rounded">
-        Add Day Type
+      <button onClick={handleAddWorkplace} className="mt-2 p-2 bg-blue-500 text-white rounded">
+        Add Workplace
       </button>
     </div>
   );

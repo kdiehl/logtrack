@@ -4,7 +4,7 @@ import { db } from "../utils/db";
 import TimelineElement from "./TimelineElement";
 import SegmentControls, { Segment } from "../components/SegmentControls"; 
 import { calculateCurrentTimePosition } from "./TimelineCalculator";
-import DayPresence from "./DayPresence";
+import Attendance from "./Attendance";
 
 const Timeline: React.FC = () => {
   const bookings = useLiveQuery(() => db.bookings.toArray(), []);
@@ -19,13 +19,13 @@ const Timeline: React.FC = () => {
   const [dayTypeSelections, setDayTypeSelections] = useState(Array(6).fill("Home"));
   const [workStatusSelections, setWorkStatusSelections] = useState(Array(6).fill("Worked"));
 
-  const handleDayTypeChange = (index: number, value: string) => {
+  const handleWorkplaceChange = (index: number, value: string) => {
     const newSelections = [...dayTypeSelections];
     newSelections[index] = value;
     setDayTypeSelections(newSelections);
   };
 
-  const handleWorkStatusChange = (index: number, value: string) => {
+  const handleAttendanceChange = (index: number, value: string) => {
     const newSelections = [...workStatusSelections];
     newSelections[index] = value;
     setWorkStatusSelections(newSelections);
@@ -98,12 +98,12 @@ const Timeline: React.FC = () => {
         <div className="grid grid-cols-[60px_repeat(6,_1fr)] w-full">
           <div></div>
           {Array.from({ length: 6 }, (_, index) => (
-            <DayPresence
+            <Attendance
               key={index}
-              initialDayType={dayTypeSelections[index]}
-              initialWorkStatus={workStatusSelections[index]}
-              onDayTypeChange={(value) => handleDayTypeChange(index, value)}
-              onWorkStatusChange={(value) => handleWorkStatusChange(index, value)}
+              initialWorkplace={dayTypeSelections[index]}
+              initialAttendance={workStatusSelections[index]}
+              onWorkplaceChange={(value) => handleWorkplaceChange(index, value)}
+              onAttendanceChange={(value) => handleAttendanceChange(index, value)}
             />
           ))}
         </div>

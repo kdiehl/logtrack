@@ -12,12 +12,12 @@ import { useLiveQuery } from "dexie-react-hooks";
 interface SettingsContextProps {
   theme: Theme;
   url: string;
-  timelineDayTypes: string[];
-  timelineWorkStatuses: string[];
+  workplaces: string[];
+  attendances: string[];
   setTheme: (theme: Theme) => void;
   setUrl: (url: string) => void;
-  setTimelineDayTypes: (dayTypes: string[]) => void;
-  setTimelineWorkStatuses: (workStatuses: string[]) => void;
+  setWorkplaces: (workplaces: string[]) => void;
+  setAttendances: (attendances: string[]) => void;
 }
 
 const SettingsContext = createContext<SettingsContextProps | undefined>(
@@ -39,8 +39,8 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const theme = settings?.[0]?.theme ?? Theme.Light;
   const url = settings?.[0]?.url ?? "";
-  const timelineDayTypes = settings?.[0]?.timelineDayTypes ?? ["Home", "Office"];
-  const timelineWorkStatuses = settings?.[0]?.timelineWorkStatuses ?? ["Worked", "Holiday", "Sick", "Sick for Children"];
+  const workplaces = settings?.[0]?.workplaces ?? ["Home", "Office"];
+  const attendances = settings?.[0]?.attendances ?? ["Worked", "Holiday", "Sick", "Sick for Children"];
 
   useEffect(() => {
     applyTheme(theme);
@@ -48,44 +48,44 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const handleSetTheme = useCallback(
     async (newTheme: Theme) => {
-      await db.settings.put({ id: 1, theme: newTheme, url, timelineDayTypes, timelineWorkStatuses });
+      await db.settings.put({ id: 1, theme: newTheme, url, workplaces, attendances });
     },
-    [url, timelineDayTypes, timelineWorkStatuses],
+    [url, workplaces, attendances],
   );
 
   const handleSetUrl = useCallback(
     async (newUrl: string) => {
-      await db.settings.put({ id: 1, theme, url: newUrl, timelineDayTypes, timelineWorkStatuses });
+      await db.settings.put({ id: 1, theme, url: newUrl, workplaces, attendances });
     },
-    [theme, timelineDayTypes, timelineWorkStatuses],
+    [theme, workplaces, attendances],
   );
 
-  const handleSetTimelineDayTypes = useCallback(
-    async (newDayTypes: string[]) => {
-      await db.settings.put({ id: 1, theme, url, timelineDayTypes: newDayTypes, timelineWorkStatuses });
+  const handleSetWorkplaces = useCallback(
+    async (newWorkplaces: string[]) => {
+      await db.settings.put({ id: 1, theme, url, workplaces: newWorkplaces, attendances });
     },
-    [theme, url, timelineWorkStatuses],
+    [theme, url, attendances],
   );
 
-  const handleSetTimelineWorkStatuses = useCallback(
-    async (newWorkStatuses: string[]) => {
-      await db.settings.put({ id: 1, theme, url, timelineDayTypes, timelineWorkStatuses: newWorkStatuses });
+  const handleSetAttendances = useCallback(
+    async (newAttendances: string[]) => {
+      await db.settings.put({ id: 1, theme, url, workplaces, attendances: newAttendances });
     },
-    [theme, url, timelineDayTypes],
+    [theme, url, workplaces],
   );
 
   const contextValue = useMemo(
     () => ({
       theme,
       url,
-      timelineDayTypes,
-      timelineWorkStatuses,
+      workplaces,
+      attendances,
       setTheme: handleSetTheme,
       setUrl: handleSetUrl,
-      setTimelineDayTypes: handleSetTimelineDayTypes,
-      setTimelineWorkStatuses: handleSetTimelineWorkStatuses,
+      setWorkplaces: handleSetWorkplaces,
+      setAttendances: handleSetAttendances,
     }),
-    [theme, url, timelineDayTypes, timelineWorkStatuses, handleSetTheme, handleSetUrl, handleSetTimelineDayTypes, handleSetTimelineWorkStatuses],
+    [theme, url, workplaces, attendances, handleSetTheme, handleSetUrl, handleSetWorkplaces, handleSetAttendances],
   );
 
   return (

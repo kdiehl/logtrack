@@ -99,8 +99,8 @@ describe("AppDatabase", () => {
         id: 1,
         theme: Theme.Dark,
         url: "http://example.com",
-        timelineDayTypes: ["Home", "Office"],
-        timelineWorkStatuses: ["Worked", "Holiday", "Sick", "Sick for Children"],
+        workplaces: ["Home", "Office"],
+        attendances: ["Worked", "Holiday", "Sick", "Sick for Children"],
       };
       await db.settings.add(setting);
       const result = await db.settings.get(1);
