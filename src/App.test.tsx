@@ -10,7 +10,7 @@ jest.mock("./tickets/ArchivedTickets", () => () => (
   <div>Mocked ArchivedTickets</div>
 ));
 jest.mock("./tickets/ActiveTickets", () => () => <div>Mocked JiraTickets</div>);
-jest.mock("./pages/SettingsPage", () => () => <div>Mocked SettingsPage</div>);
+jest.mock("./settings/SettingsPage", () => () => <div>Mocked SettingsPage</div>);
 
 describe("App", () => {
   test("renders Navbar", () => {
