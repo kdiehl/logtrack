@@ -1,32 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSettings } from "../settings/SettingsContext";
+import { db } from "../utils/db";
 
 interface AttendanceProps {
-  initialWorkplace: string;
-  initialAttendance: string;
-  onWorkplaceChange: (value: string) => void;
-  onAttendanceChange: (value: string) => void;
+  date: string; // ISO string format
 }
 
-const Attendance: React.FC<AttendanceProps> = ({
-  initialWorkplace,
-  initialAttendance,
-  onWorkplaceChange,
-  onAttendanceChange,
-}) => {
+const Attendance: React.FC<AttendanceProps> = ({ date }) => {
   const { workplaces, attendances } = useSettings();
+  const [workplace, setWorkplace] = useState("");
+  const [attendance, setAttendance] = useState("");
 
-  const [workplace, setWorkplace] = useState(initialWorkplace);
-  const [attendance, setAttendance] = useState(initialAttendance);
+  useEffect(() => {
+    const loadAttendance = async () => {
+      const existingAttendance = await db.attendances.where({ date }).first();
+      if (existingAttendance) {
+        setWorkplace(existingAttendance.workplace);
+        setAttendance(existingAttendance.attendance);
+      }
+    };
+    loadAttendance();
+  }, [date]);
 
-  const handleWorkplaceChange = (value: string) => {
+  const handleWorkplaceChange = async (value: string) => {
     setWorkplace(value);
-    onWorkplaceChange(value);
+    const existingAttendance = await db.attendances.where({ date }).first();
+    if (existingAttendance) {
+      await db.attendances.update(existingAttendance.id!, { workplace: value });
+    } else {
+      await db.attendances.add({ date, workplace: value, attendance });
+    }
   };
 
-  const handleAttendanceChange = (value: string) => {
+  const handleAttendanceChange = async (value: string) => {
     setAttendance(value);
-    onAttendanceChange(value);
+    const existingAttendance = await db.attendances.where({ date }).first();
+    if (existingAttendance) {
+      await db.attendances.update(existingAttendance.id!, { attendance: value });
+    } else {
+      await db.attendances.add({ date, workplace, attendance: value });
+    }
   };
 
   return (

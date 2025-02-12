@@ -16,21 +16,6 @@ const Timeline: React.FC = () => {
   const START_HOUR = 5;
   const UPDATE_INTERVAL = 60000;
 
-  const [dayTypeSelections, setDayTypeSelections] = useState(Array(6).fill("Home"));
-  const [workStatusSelections, setWorkStatusSelections] = useState(Array(6).fill("Worked"));
-
-  const handleWorkplaceChange = (index: number, value: string) => {
-    const newSelections = [...dayTypeSelections];
-    newSelections[index] = value;
-    setDayTypeSelections(newSelections);
-  };
-
-  const handleAttendanceChange = (index: number, value: string) => {
-    const newSelections = [...workStatusSelections];
-    newSelections[index] = value;
-    setWorkStatusSelections(newSelections);
-  };
-
   const handleSegmentChange = (segment: Segment) => {
     if (segment === Segment.Now) {
       setWeekOffset(0);
@@ -97,15 +82,17 @@ const Timeline: React.FC = () => {
       <div className="flex justify-between bg-gray-100 dark:bg-gray-500 text-center">
         <div className="grid grid-cols-[60px_repeat(6,_1fr)] w-full">
           <div></div>
-          {Array.from({ length: 6 }, (_, index) => (
-            <Attendance
-              key={index}
-              initialWorkplace={dayTypeSelections[index]}
-              initialAttendance={workStatusSelections[index]}
-              onWorkplaceChange={(value) => handleWorkplaceChange(index, value)}
-              onAttendanceChange={(value) => handleAttendanceChange(index, value)}
-            />
-          ))}
+          {Array.from({ length: 6 }, (_, index) => {
+            const date = new Date(startOfWeek);
+            date.setDate(date.getDate() + index);
+            const isoDate = date.toISOString().split("T")[0]
+            return (
+              <Attendance
+              key={isoDate}
+              date={isoDate}
+              />
+            );
+          })}
         </div>
       </div>
       <div className="flex-1 grid grid-cols-[60px_repeat(6,_1fr)] relative overflow-y-auto h-[1020px]">

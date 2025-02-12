@@ -8,6 +8,7 @@ import { Booking } from "../journal/Booking";
 const Reports: React.FC = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const bookings = useLiveQuery(() => db.bookings.toArray(), []);
+  const attendances = useLiveQuery(() => db.attendances.toArray(), []);
 
   const handleSegmentChange = (segment: Segment) => {
     setCurrentDate((prevDate) => {
@@ -42,7 +43,7 @@ const Reports: React.FC = () => {
       const end = booking.endTime ? new Date(booking.endTime).getTime() : start;
       totalMinutes += (end - start) / 60000;
     });
-    return (totalMinutes / 60).toFixed(1) + 'h';
+    return (totalMinutes / 60).toFixed(2) + 'h';
   };
 
   const calculateBreakTime = (bookings: Booking[]) => {
@@ -63,6 +64,9 @@ const Reports: React.FC = () => {
       const dayBookings = bookings?.filter(
         (booking) => new Date(booking.date).toDateString() === date.toDateString()
       ) || [];
+      const dayAttendance = attendances?.find(
+        (attendance) => new Date(attendance.date).toDateString() === date.toDateString()
+      );
       const firstBooking = dayBookings[0];
       const lastBooking = dayBookings[dayBookings.length - 1];
       const isWeekend = date.getDay() === 0 || date.getDay() === 6;
@@ -72,6 +76,8 @@ const Reports: React.FC = () => {
           <td>{getDayName(date)}</td>
           <td>{firstBooking ? new Date(firstBooking.startTime).toLocaleTimeString() : '-'}</td>
           <td>{lastBooking && lastBooking.endTime ? new Date(lastBooking.endTime).toLocaleTimeString() : '-'}</td>
+          <td>{dayAttendance ? dayAttendance.workplace : '-'}</td>
+          <td>{dayAttendance ? dayAttendance.attendance : '-'}</td>
           <td className="text-right w-24">{calculateBreakTime(dayBookings)}</td>
           <td className="text-right w-24">{calculateWorkedTime(dayBookings)}</td>
         </tr>
@@ -99,6 +105,8 @@ const Reports: React.FC = () => {
               <th className="py-2">Day</th>
               <th className="py-2">First Start</th>
               <th className="py-2">Last End</th>
+              <th className="py-2">Workplace</th>
+              <th className="py-2">Attendance</th>
               <th className="py-2 text-right w-24">Break Duration</th>
               <th className="py-2 text-right w-24">Worked Time</th>
             </tr>
