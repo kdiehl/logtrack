@@ -15,8 +15,9 @@ export interface SettingsModel {
 export interface Attendance {
   id?: number;
   date: string; // ISO string format
-  workplace: string;
-  attendance: string;
+  workplace?: string;
+  attendance?: string;
+  overtime?: number;
 }
 
 class AppDatabase extends Dexie {
@@ -31,7 +32,7 @@ class AppDatabase extends Dexie {
       bookings: "++id, date, ticketId, startTime, endTime",
       tickets: "++id, title, status, description",
       settings: "++id, theme, url, workplaces, attendances",
-      attendances: "++id, date, workplace, attendance",
+      attendances: "++id, date, workplace, attendance, overtime",
     });
     this.bookings = this.table("bookings");
     this.tickets = this.table("tickets");

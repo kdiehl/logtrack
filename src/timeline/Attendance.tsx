@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSettings } from "../settings/SettingsContext";
 import { db } from "../utils/db";
+import SelectInput from "../components/SelectInput";
 
 interface AttendanceProps {
   date: string; // ISO string format
@@ -8,8 +9,8 @@ interface AttendanceProps {
 
 const Attendance: React.FC<AttendanceProps> = ({ date }) => {
   const { workplaces, attendances } = useSettings();
-  const [workplace, setWorkplace] = useState("");
-  const [attendance, setAttendance] = useState("");
+  const [workplace, setWorkplace] = useState<string | undefined>(undefined);
+  const [attendance, setAttendance] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     const loadAttendance = async () => {
@@ -22,7 +23,7 @@ const Attendance: React.FC<AttendanceProps> = ({ date }) => {
     loadAttendance();
   }, [date]);
 
-  const handleWorkplaceChange = async (value: string) => {
+  const handleWorkplaceChange = async (value: string | undefined) => {
     setWorkplace(value);
     const existingAttendance = await db.attendances.where({ date }).first();
     if (existingAttendance) {
@@ -32,7 +33,7 @@ const Attendance: React.FC<AttendanceProps> = ({ date }) => {
     }
   };
 
-  const handleAttendanceChange = async (value: string) => {
+  const handleAttendanceChange = async (value: string | undefined) => {
     setAttendance(value);
     const existingAttendance = await db.attendances.where({ date }).first();
     if (existingAttendance) {
@@ -44,27 +45,20 @@ const Attendance: React.FC<AttendanceProps> = ({ date }) => {
 
   return (
     <div className="p-2">
-      <select
+      <SelectInput
         value={workplace}
-        onChange={(e) => handleWorkplaceChange(e.target.value)}
-        className="mb-2"
-      >
-        {workplaces.map((type) => (
-          <option key={type} value={type}>
-            {type}
-          </option>
-        ))}
-      </select>
-      <select
+        onChange={handleWorkplaceChange}
+        options={workplaces}
+        placeholder="Select Workplace"
+        className={`mb-2 ${workplace ? '' : 'bg-red-200'}`}
+      />
+      <SelectInput
         value={attendance}
-        onChange={(e) => handleAttendanceChange(e.target.value)}
-      >
-        {attendances.map((status) => (
-          <option key={status} value={status}>
-            {status}
-          </option>
-        ))}
-      </select>
+        onChange={handleAttendanceChange}
+        options={attendances}
+        placeholder="Select Attendance"
+        className={`${attendance ? '' : 'bg-red-200'}`}
+      />
     </div>
   );
 };

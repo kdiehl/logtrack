@@ -61,6 +61,10 @@ const Timeline: React.FC = () => {
     return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
   };
 
+  const formatShortDate = (date: Date) => {
+    return `${date.getDate()}.${date.getMonth() + 1}.`;
+  };
+
   return (
     <div className="flex flex-col h-full">
       <div className="flex justify-between items-center mb-4">
@@ -72,11 +76,15 @@ const Timeline: React.FC = () => {
       <div className="flex justify-between bg-gray-100 dark:bg-gray-500 text-center">
         <div className="grid grid-cols-[60px_repeat(6,_1fr)] w-full">
           <div></div>
-          {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"].map((day, index) => (
-            <div key={day} className={index + 1 === currentDay ? "bg-blue-200 dark:bg-blue-500 p-2" : "p-2"}>
-              {day}
-            </div>
-          ))}
+          {Array.from({ length: 6 }, (_, index) => {
+            const date = new Date(startOfWeek);
+            date.setDate(date.getDate() + index);
+            return (
+              <div key={index} className={index + 1 === currentDay ? "bg-blue-200 dark:bg-blue-500 p-2" : "p-2"}>
+                {`${["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][index]} ${formatShortDate(date)}`}
+              </div>
+            );
+          })}
         </div>
       </div>
       <div className="flex justify-between bg-gray-100 dark:bg-gray-500 text-center">
@@ -84,12 +92,12 @@ const Timeline: React.FC = () => {
           <div></div>
           {Array.from({ length: 6 }, (_, index) => {
             const date = new Date(startOfWeek);
-            date.setDate(date.getDate() + index);
-            const isoDate = date.toISOString().split("T")[0]
+            date.setDate(date.getDate() + index + 1); // Fix the date calculation
+            const isoDate = date.toISOString().split("T")[0];
             return (
               <Attendance
-              key={isoDate}
-              date={isoDate}
+                key={isoDate}
+                date={isoDate}
               />
             );
           })}

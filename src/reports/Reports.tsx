@@ -76,8 +76,8 @@ const Reports: React.FC = () => {
           <td>{getDayName(date)}</td>
           <td>{firstBooking ? new Date(firstBooking.startTime).toLocaleTimeString() : '-'}</td>
           <td>{lastBooking && lastBooking.endTime ? new Date(lastBooking.endTime).toLocaleTimeString() : '-'}</td>
-          <td>{dayAttendance ? dayAttendance.workplace : '-'}</td>
-          <td>{dayAttendance ? dayAttendance.attendance : '-'}</td>
+          <td>{dayAttendance?.workplace ? dayAttendance.workplace : '-'}</td>
+          <td>{dayAttendance?.attendance ? dayAttendance.attendance : '-'}</td>
           <td className="text-right w-24">{calculateBreakTime(dayBookings)}</td>
           <td className="text-right w-24">{calculateWorkedTime(dayBookings)}</td>
         </tr>
