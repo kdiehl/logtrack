@@ -12,9 +12,9 @@ function getHeadlineClass(preset: string) {
     case "h1":
       return `${classBase} text-4xl font-bold`;
     case "h2":
-      return `${classBase} text-2xl font-semibold`;
+      return `${classBase} text-2xl font-semibold mb-2`;
     case "h3":
-      return `${classBase} text-xl font-medium`;
+      return `${classBase} text-xl font-medium mb-2`;
     default:
       return `${classBase} text-2xl font-semibold`;
   }

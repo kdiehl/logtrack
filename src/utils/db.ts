@@ -10,6 +10,7 @@ export interface SettingsModel {
   url: string;
   workplaces: string[];
   attendances: string[];
+  mandatoryHours?: { [day: string]: number };
 }
 
 export interface Attendance {
@@ -31,7 +32,7 @@ class AppDatabase extends Dexie {
     this.version(1).stores({
       bookings: "++id, date, ticketId, startTime, endTime",
       tickets: "++id, title, status, description",
-      settings: "++id, theme, url, workplaces, attendances",
+      settings: "++id, theme, url, workplaces, attendances, mandatoryHours",
       attendances: "++id, date, workplace, attendance, overtime",
     });
     this.bookings = this.table("bookings");

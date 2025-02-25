@@ -42,7 +42,7 @@ function groupEntries(
 }
 
 const JournalList: React.FC = () => {
-  const bookings = useLiveQuery(() => db.bookings.toArray(), []);
+  const bookings = useLiveQuery(() => bookingService.getAllBookings(), []);
   const tickets = useLiveQuery(() => db.tickets.toArray(), []);
   const [editingBooking, setEditingBooking] = useState<Booking | null>(null);
 
@@ -71,11 +71,11 @@ const JournalList: React.FC = () => {
   };
 
   const handleDeleteBooking = async (bookingId: number) => {
-    await db.bookings.delete(bookingId);
+    await bookingService.deleteBooking(bookingId);
   };
 
   const handleSaveBooking = async (updatedBooking: Booking) => {
-    await db.bookings.update(updatedBooking.id, updatedBooking);
+    await bookingService.updateBooking(updatedBooking);
     setEditingBooking(null);
   };
 

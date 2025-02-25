@@ -14,10 +14,12 @@ interface SettingsContextProps {
   url: string;
   workplaces: string[];
   attendances: string[];
+  mandatoryHours: { [day: string]: number };
   setTheme: (theme: Theme) => void;
   setUrl: (url: string) => void;
   setWorkplaces: (workplaces: string[]) => void;
   setAttendances: (attendances: string[]) => void;
+  setMandatoryHours: (mandatoryHours: { [day: string]: number }) => void;
 }
 
 const SettingsContext = createContext<SettingsContextProps | undefined>(
@@ -41,6 +43,14 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
   const url = settings?.[0]?.url ?? "";
   const workplaces = settings?.[0]?.workplaces ?? ["Home", "Office"];
   const attendances = settings?.[0]?.attendances ?? ["Worked", "Holiday", "Sick", "Sick for Children"];
+  const mandatoryHours = settings?.[0]?.mandatoryHours ?? {
+    Monday: 8,
+    Tuesday: 8,
+    Wednesday: 8,
+    Thursday: 8,
+    Friday: 8,
+    Saturday: 0,
+  };
 
   useEffect(() => {
     applyTheme(theme);
@@ -48,30 +58,37 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const handleSetTheme = useCallback(
     async (newTheme: Theme) => {
-      await db.settings.put({ id: 1, theme: newTheme, url, workplaces, attendances });
+      await db.settings.put({ id: 1, theme: newTheme, url, workplaces, attendances, mandatoryHours });
     },
-    [url, workplaces, attendances],
+    [url, workplaces, attendances, mandatoryHours],
   );
 
   const handleSetUrl = useCallback(
     async (newUrl: string) => {
-      await db.settings.put({ id: 1, theme, url: newUrl, workplaces, attendances });
+      await db.settings.put({ id: 1, theme, url: newUrl, workplaces, attendances, mandatoryHours });
     },
-    [theme, workplaces, attendances],
+    [theme, workplaces, attendances, mandatoryHours],
   );
 
   const handleSetWorkplaces = useCallback(
     async (newWorkplaces: string[]) => {
-      await db.settings.put({ id: 1, theme, url, workplaces: newWorkplaces, attendances });
+      await db.settings.put({ id: 1, theme, url, workplaces: newWorkplaces, attendances, mandatoryHours });
     },
-    [theme, url, attendances],
+    [theme, url, attendances, mandatoryHours],
   );
 
   const handleSetAttendances = useCallback(
     async (newAttendances: string[]) => {
-      await db.settings.put({ id: 1, theme, url, workplaces, attendances: newAttendances });
+      await db.settings.put({ id: 1, theme, url, workplaces, attendances: newAttendances, mandatoryHours });
     },
-    [theme, url, workplaces],
+    [theme, url, workplaces, mandatoryHours],
+  );
+
+  const handleSetMandatoryHours = useCallback(
+    async (newMandatoryHours: { [day: string]: number }) => {
+      await db.settings.put({ id: 1, theme, url, workplaces, attendances, mandatoryHours: newMandatoryHours });
+    },
+    [theme, url, workplaces, attendances],
   );
 
   const contextValue = useMemo(
@@ -80,12 +97,14 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
       url,
       workplaces,
       attendances,
+      mandatoryHours,
       setTheme: handleSetTheme,
       setUrl: handleSetUrl,
       setWorkplaces: handleSetWorkplaces,
       setAttendances: handleSetAttendances,
+      setMandatoryHours: handleSetMandatoryHours,
     }),
-    [theme, url, workplaces, attendances, handleSetTheme, handleSetUrl, handleSetWorkplaces, handleSetAttendances],
+    [theme, url, workplaces, attendances, mandatoryHours, handleSetTheme, handleSetUrl, handleSetWorkplaces, handleSetAttendances, handleSetMandatoryHours],
   );
 
   return (

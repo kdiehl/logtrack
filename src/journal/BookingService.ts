@@ -38,12 +38,20 @@ class BookingService {
       new Date(endTime),
     ).toISOString();
 
-    // if (booking.startTime === booking.endTime) {
-    //   return;
-    // }
-
     await db.bookings.put(booking);
     await this.stopOngoingBooking(await db.bookings.toArray());
+  }
+
+  public async getAllBookings(): Promise<Booking[]> {
+    return await db.bookings.toArray();
+  }
+
+  public async deleteBooking(bookingId: number): Promise<void> {
+    await db.bookings.delete(bookingId);
+  }
+
+  public async updateBooking(booking: Booking): Promise<void> {
+    await db.bookings.update(booking.id, booking);
   }
 }
 

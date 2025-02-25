@@ -7,7 +7,7 @@ describe("InputField component", () => {
   const nameAttribute = "test";
   const changedValue = "changed";
   const inputClass =
-    "w-full p-2 mb-4 border border-gray-300 dark:bg-gray-600 dark:border-gray-500 rounded";
+    "w-full p-2 border border-gray-300 dark:bg-gray-600 dark:border-gray-500 rounded";
 
   it("renders with correct initial value", () => {
     render(

@@ -6,6 +6,8 @@ interface InputFieldProps {
   placeholder: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  className?: string;
+  onEnterPress?: () => void;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -13,7 +15,15 @@ const InputField: React.FC<InputFieldProps> = ({
   placeholder,
   value,
   onChange,
+  className = "",
+  onEnterPress,
 }) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && onEnterPress) {
+      onEnterPress();
+    }
+  };
+
   return (
     <input
       type="text"
@@ -21,7 +31,8 @@ const InputField: React.FC<InputFieldProps> = ({
       placeholder={placeholder}
       value={value}
       onChange={onChange}
-      className="w-full p-2 mb-4 border border-gray-300 dark:bg-gray-600 dark:border-gray-500 rounded"
+      onKeyDown={handleKeyDown}
+      className={`w-full p-2 border border-gray-300 dark:bg-gray-600 dark:border-gray-500 rounded ${className}`}
     />
   );
 };

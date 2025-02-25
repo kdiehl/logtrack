@@ -45,6 +45,7 @@ const TicketEditModal: React.FC<TicketEditModalProps> = ({
           placeholder="Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          className="mb-4"
         />
         <TextAreaField
           name="description"
