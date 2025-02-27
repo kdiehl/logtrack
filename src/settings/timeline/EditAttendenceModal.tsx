@@ -3,6 +3,7 @@ import Modal from "../../components/Modal";
 import InputField from "../../components/InputField";
 import CustomButton from "../../components/CustomButton";
 import { AttendanceOption } from "../../utils/db";
+import Headline from "../../components/Headline";
 
 interface EditAttendenceModalProps {
   isOpen: boolean;
@@ -31,8 +32,7 @@ const EditAttendenceModal: React.FC<EditAttendenceModalProps> = ({
 
   return (
     <Modal isOpen={isOpen}>
-      <div className="p-4">
-        <h2 className="text-lg mb-4">Edit Attendance</h2>
+        <Headline preset="h3">Edit Attendance</Headline>
         <InputField
           name="editAttendence"
           placeholder="Edit attendance"
@@ -56,7 +56,6 @@ const EditAttendenceModal: React.FC<EditAttendenceModalProps> = ({
             Save
           </CustomButton>
         </div>
-      </div>
     </Modal>
   );
 };

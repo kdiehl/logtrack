@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Modal from "../../components/Modal";
 import InputField from "../../components/InputField";
 import CustomButton from "../../components/CustomButton";
+import Headline from "../../components/Headline";
 
 interface EditWorkplaceModalProps {
   isOpen: boolean;
@@ -29,8 +30,7 @@ const EditWorkplaceModal: React.FC<EditWorkplaceModalProps> = ({
 
   return (
     <Modal isOpen={isOpen}>
-      <div className="p-4">
-        <h2 className="text-lg mb-4">Edit Workplace</h2>
+        <Headline preset="h3">Edit Workplace</Headline>
         <InputField
           name="editWorkplace"
           placeholder="Edit workplace"
@@ -46,7 +46,6 @@ const EditWorkplaceModal: React.FC<EditWorkplaceModalProps> = ({
             Save
           </CustomButton>
         </div>
-      </div>
     </Modal>
   );
 };

@@ -18,7 +18,7 @@ const OvertimeSettings: React.FC = () => {
   return (
     <div className="flex flex-col">
       <Headline preset="h2">Overtime Settings</Headline>
-      <table className="min-w-full bg-white">
+      <table className="min-w-full bg-white dark:bg-gray-800">
         <thead>
           <tr>
             <th className="py-2">Day</th>
@@ -28,14 +28,14 @@ const OvertimeSettings: React.FC = () => {
         <tbody>
           {daysOfWeek.map((day) => (
             <tr key={day}>
-              <td className="border px-4 py-2">{day}</td>
-              <td className="border px-4 py-2">
+              <td className="border px-4 py-2 dark:border-gray-700">{day}</td>
+              <td className="border px-4 py-2 dark:border-gray-700">
                 <InputField
                   name="mandatoryHours"
                   placeholder="Mandatory Hours"
                   value={mandatoryHours[day]?.toString() || ""}
                   onChange={(e) => handleHoursChange(day, Number(e.target.value))}
-                  className="w-full px-2 py-1 border rounded"
+                  className="w-full px-2 py-1 border rounded dark:bg-gray-700 dark:text-white"
                 />
               </td>
             </tr>
