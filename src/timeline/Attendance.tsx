@@ -42,14 +42,14 @@ const Attendance: React.FC<AttendanceProps> = ({ date }) => {
         onChange={handleWorkplaceChange}
         options={workplaces}
         placeholder="Select Workplace"
-        className={`mb-2 ${workplace ? '' : 'bg-red-200'}`}
+        className={`mb-2 ${workplace ? '' : 'bg-red-200 dark:bg-red-800'}`}
       />
       <SelectInput
         value={attendance}
         onChange={handleAttendanceChange}
         options={attendances.map(att => att.label)}
         placeholder="Select Attendance"
-        className={`${attendance ? '' : 'bg-red-200'}`}
+        className={`${attendance ? '' : 'bg-red-200 dark:bg-red-800'}`}
       />
     </div>
   );

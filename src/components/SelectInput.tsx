@@ -13,7 +13,7 @@ const SelectInput: React.FC<SelectInputProps> = ({ value, onChange, options, pla
     <select
       value={value || ""}
       onChange={(e) => onChange(e.target.value === "" ? undefined : e.target.value)}
-      className={`border rounded-md p-1 ${className}`}
+      className={`border rounded-md p-1 dark:bg-gray-700 dark:text-white ${className}`}
     >
       <option value="">{placeholder}</option>
       {options.map((option) => (

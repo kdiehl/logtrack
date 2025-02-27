@@ -46,21 +46,21 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const theme = settings?.[0]?.theme ?? Theme.Light;
   const url = settings?.[0]?.url ?? "";
-  const workplaces = settings?.[0]?.workplaces ?? ["Home", "Office"];
-  const attendances = settings?.[0]?.attendances ?? [
+  const workplaces = useMemo(() => settings?.[0]?.workplaces ?? ["Home", "Office"], [settings]);
+  const attendances = useMemo(() => settings?.[0]?.attendances ?? [
     { label: "Worked", workRequired: true },
     { label: "Holiday", workRequired: false },
     { label: "Sick", workRequired: false },
     { label: "Sick for Children", workRequired: false },
-  ];
-  const mandatoryHours = settings?.[0]?.mandatoryHours ?? {
+  ], [settings]);
+  const mandatoryHours = useMemo(() => settings?.[0]?.mandatoryHours ?? {
     Monday: 8,
     Tuesday: 8,
     Wednesday: 8,
     Thursday: 8,
     Friday: 8,
     Saturday: 0,
-  };
+  }, [settings]);
 
   useEffect(() => {
     applyTheme(theme);
