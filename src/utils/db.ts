@@ -4,21 +4,26 @@ import { Booking } from "../journal/Booking";
 import { Ticket } from "../tickets/Ticket";
 import { Theme } from "../settings/Theme";
 
-export interface SettingsModel {
-  id?: number;
-  theme: Theme;
-  url: string;
-  workplaces: string[];
-  attendances: string[];
-  mandatoryHours?: { [day: string]: number };
-}
-
 export interface Attendance {
   id?: number;
   date: string; // ISO string format
   workplace?: string;
   attendance?: string;
   overtime?: number;
+}
+
+export interface AttendanceOption {
+  label: string;
+  workRequired: boolean;
+}
+
+export interface SettingsModel {
+  id?: number;
+  theme: Theme;
+  url: string;
+  workplaces: string[];
+  attendances: AttendanceOption[];
+  mandatoryHours?: { [day: string]: number };
 }
 
 class AppDatabase extends Dexie {

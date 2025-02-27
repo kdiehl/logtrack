@@ -36,6 +36,7 @@ const EditWorkplaceModal: React.FC<EditWorkplaceModalProps> = ({
           placeholder="Edit workplace"
           value={editedWorkplace}
           onChange={(e) => setEditedWorkplace(e.target.value)}
+          className="mb-4"
         />
         <div className="flex justify-end">
           <CustomButton onClick={onClose} preset="secondary">

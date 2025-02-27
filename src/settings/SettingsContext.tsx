@@ -9,16 +9,21 @@ import { db } from "../utils/db";
 import { Theme } from "./Theme";
 import { useLiveQuery } from "dexie-react-hooks";
 
+interface AttendanceOption {
+  label: string;
+  workRequired: boolean;
+}
+
 interface SettingsContextProps {
   theme: Theme;
   url: string;
   workplaces: string[];
-  attendances: string[];
+  attendances: AttendanceOption[];
   mandatoryHours: { [day: string]: number };
   setTheme: (theme: Theme) => void;
   setUrl: (url: string) => void;
   setWorkplaces: (workplaces: string[]) => void;
-  setAttendances: (attendances: string[]) => void;
+  setAttendances: (attendances: AttendanceOption[]) => void;
   setMandatoryHours: (mandatoryHours: { [day: string]: number }) => void;
 }
 
@@ -42,7 +47,12 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
   const theme = settings?.[0]?.theme ?? Theme.Light;
   const url = settings?.[0]?.url ?? "";
   const workplaces = settings?.[0]?.workplaces ?? ["Home", "Office"];
-  const attendances = settings?.[0]?.attendances ?? ["Worked", "Holiday", "Sick", "Sick for Children"];
+  const attendances = settings?.[0]?.attendances ?? [
+    { label: "Worked", workRequired: true },
+    { label: "Holiday", workRequired: false },
+    { label: "Sick", workRequired: false },
+    { label: "Sick for Children", workRequired: false },
+  ];
   const mandatoryHours = settings?.[0]?.mandatoryHours ?? {
     Monday: 8,
     Tuesday: 8,
@@ -78,7 +88,7 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 
   const handleSetAttendances = useCallback(
-    async (newAttendances: string[]) => {
+    async (newAttendances: AttendanceOption[]) => {
       await db.settings.put({ id: 1, theme, url, workplaces, attendances: newAttendances, mandatoryHours });
     },
     [theme, url, workplaces, mandatoryHours],

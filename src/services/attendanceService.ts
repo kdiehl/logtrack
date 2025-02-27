@@ -9,16 +9,16 @@ export const updateWorkplace = async (date: string, workplace?: string) => {
   }
 };
 
-export const updateAttendance = async (date: string, attendance?: string) => {
+export const updateAttendance = async (date: string, attendance?: string, workRequired?: boolean) => {
   const existingAttendance = await db.attendances.where({ date }).first();
   if (existingAttendance) {
     await db.attendances.update(existingAttendance.id!, { attendance });
   } else {
     await db.attendances.add({ date, attendance });
   }
-  if (attendance !== "Worked") {
+  if (!workRequired) {
     await updateOvertime(date, 0);
-  } else if (attendance === "Worked" && (existingAttendance?.overtime === undefined || existingAttendance.overtime === 0)) {
+  } else if (workRequired && (existingAttendance?.overtime === undefined || existingAttendance.overtime === 0)) {
     await updateOvertimeWithWorkedTime(0, date);
   }
 };

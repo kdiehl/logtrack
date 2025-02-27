@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import SegmentControls, { Segment } from "../components/SegmentControls";
 import Headline from "../components/Headline";
 import { useLiveQuery } from "dexie-react-hooks";
-import { db } from "../utils/db";
+import { Attendance, db } from "../utils/db";
 import { Booking } from "../journal/Booking";
 
 const Reports: React.FC = () => {
@@ -93,7 +93,7 @@ const Reports: React.FC = () => {
     return summary;
   };
 
-  const calculateOvertime = (dayAttendance: import("/workspaces/logtrack/src/utils/db").Attendance | undefined) => {
+  const calculateOvertime = (dayAttendance: Attendance | undefined) => {
     return dayAttendance?.overtime !== undefined ? dayAttendance.overtime.toFixed(2) + 'h' : '-';
   };
 

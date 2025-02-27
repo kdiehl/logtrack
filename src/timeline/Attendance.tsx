@@ -31,7 +31,8 @@ const Attendance: React.FC<AttendanceProps> = ({ date }) => {
 
   const handleAttendanceChange = async (value: string | undefined) => {
     setAttendance(value);
-    await updateAttendance(date, value);
+    const selectedAttendance = attendances.find(att => att.label === value);
+    await updateAttendance(date, value, selectedAttendance?.workRequired);
   };
 
   return (
@@ -46,7 +47,7 @@ const Attendance: React.FC<AttendanceProps> = ({ date }) => {
       <SelectInput
         value={attendance}
         onChange={handleAttendanceChange}
-        options={attendances}
+        options={attendances.map(att => att.label)}
         placeholder="Select Attendance"
         className={`${attendance ? '' : 'bg-red-200'}`}
       />

@@ -100,7 +100,10 @@ describe("AppDatabase", () => {
         theme: Theme.Dark,
         url: "http://example.com",
         workplaces: ["Home", "Office"],
-        attendances: ["Worked", "Holiday", "Sick", "Sick for Children"],
+        attendances: ["Worked", "Holiday", "Sick", "Sick for Children"].map((label) => ({
+          label,
+          workRequired: label === "Worked",
+        })),
       };
       await db.settings.add(setting);
       const result = await db.settings.get(1);
