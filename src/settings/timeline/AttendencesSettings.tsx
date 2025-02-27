@@ -30,13 +30,11 @@ const AttendencesSettings: React.FC = () => {
       att === selectedAttendence ? newAttendence : att
     );
     setAttendances(updatedAttendances);
-    // Persist to the database here
   };
 
   const handleDeleteAttendence = (attendence: string) => {
     const updatedAttendances = attendances.filter((att) => att !== attendence);
     setAttendances(updatedAttendances);
-    // Persist to the database here
   };
 
   const handleEnterPress = () => {

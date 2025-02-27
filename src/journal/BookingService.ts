@@ -1,5 +1,6 @@
 import { Booking } from "./Booking";
 import { db } from "../utils/db";
+import { updateOvertimeWithWorkedTime } from "../services/attendanceService";
 
 class BookingService {
   private roundToNearestQuarterHour(date: Date) {
@@ -24,6 +25,7 @@ class BookingService {
       startTime: roundedStartTime,
     };
     await db.bookings.add(newBooking);
+    await this.updateDailyOvertime(newBooking.date);
   }
 
   private async stopOngoingBooking(bookings: Array<Booking>) {
@@ -39,6 +41,7 @@ class BookingService {
     ).toISOString();
 
     await db.bookings.put(booking);
+    await this.updateDailyOvertime(booking.date);
     await this.stopOngoingBooking(await db.bookings.toArray());
   }
 
@@ -47,11 +50,33 @@ class BookingService {
   }
 
   public async deleteBooking(bookingId: number): Promise<void> {
-    await db.bookings.delete(bookingId);
+    const booking = await db.bookings.get(bookingId);
+    if (booking) {
+      await db.bookings.delete(bookingId);
+      await this.updateDailyOvertime(booking.date);
+    }
   }
 
   public async updateBooking(booking: Booking): Promise<void> {
     await db.bookings.update(booking.id, booking);
+    await this.updateDailyOvertime(booking.date);
+  }
+
+  private async updateDailyOvertime(date: string) {
+    const bookings = await db.bookings.where({ date }).toArray();
+    const totalWorkedTime = this.calculateTotalWorkedTime(bookings);
+    await updateOvertimeWithWorkedTime(totalWorkedTime, date);
+  }
+
+  private calculateTotalWorkedTime(bookings: Array<Booking>): number {
+    return bookings.reduce((sum, booking) => {
+      if (booking.endTime) {
+        const start = new Date(booking.startTime).getTime();
+        const end = new Date(booking.endTime).getTime();
+        return sum + (end - start) / (1000 * 60 * 60); // convert milliseconds to hours
+      }
+      return sum;
+    }, 0);
   }
 }
 

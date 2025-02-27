@@ -19,11 +19,6 @@ describe("Navbar", () => {
       </MemoryRouter>,
     );
     expect(screen.getByText("Home")).toHaveAttribute("href", "/");
-    expect(screen.getByText("Tickets")).toHaveAttribute("href", "/tickets");
-    expect(screen.getByText("Archived Tickets")).toHaveAttribute(
-      "href",
-      "/tickets/archive",
-    );
     expect(screen.getByText("Settings")).toHaveAttribute("href", "/settings");
   });
 });

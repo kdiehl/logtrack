@@ -44,6 +44,7 @@ const CreateTicketModal: React.FC<CreateTicketModalProps> = ({
           placeholder="Title"
           value={currentTicket.title || ""}
           onChange={handleInputChange}
+          className="mb-4"
         />
         <TextAreaField
           name="description"

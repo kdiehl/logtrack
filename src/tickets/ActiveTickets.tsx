@@ -9,6 +9,7 @@ import { bookingService } from "../journal/BookingService";
 import CustomButton from "../components/CustomButton";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router";
 
 const ActiveTickets: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -54,6 +55,7 @@ const ActiveTickets: React.FC = () => {
         <CustomButton preset="submit" onClick={() => setIsModalOpen(true)}>
           <FontAwesomeIcon icon={faPlus} />
         </CustomButton>
+        <Link to="/tickets/archive" className="text-sm ml-auto">Archived Tickets</Link>
       </div>
       <div className="grid grid-cols-1 gap-4 mt-5 mb-5">
         {tickets

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSettings } from "../settings/SettingsContext";
-import { db } from "../utils/db";
+import { updateWorkplace, updateAttendance } from "../services/attendanceService";
 import SelectInput from "../components/SelectInput";
+import { db } from "../utils/db";
 
 interface AttendanceProps {
   date: string; // ISO string format
@@ -25,22 +26,12 @@ const Attendance: React.FC<AttendanceProps> = ({ date }) => {
 
   const handleWorkplaceChange = async (value: string | undefined) => {
     setWorkplace(value);
-    const existingAttendance = await db.attendances.where({ date }).first();
-    if (existingAttendance) {
-      await db.attendances.update(existingAttendance.id!, { workplace: value });
-    } else {
-      await db.attendances.add({ date, workplace: value, attendance });
-    }
+    await updateWorkplace(date, value);
   };
 
   const handleAttendanceChange = async (value: string | undefined) => {
     setAttendance(value);
-    const existingAttendance = await db.attendances.where({ date }).first();
-    if (existingAttendance) {
-      await db.attendances.update(existingAttendance.id!, { attendance: value });
-    } else {
-      await db.attendances.add({ date, workplace, attendance: value });
-    }
+    await updateAttendance(date, value);
   };
 
   return (
