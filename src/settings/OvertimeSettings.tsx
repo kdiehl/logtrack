@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Headline from "../components/Headline";
 import InputField from "../components/InputField";
 import { useSettings } from "./SettingsContext";
