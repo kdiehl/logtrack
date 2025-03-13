@@ -1,4 +1,5 @@
 import { db } from "../utils/db";
+import { bookingService } from "../journal/BookingService";
 
 export const updateWorkplace = async (date: string, workplace?: string) => {
   const existingAttendance = await db.attendances.where({ date }).first();
@@ -18,8 +19,8 @@ export const updateAttendance = async (date: string, attendance?: string, workRe
   }
   if (!workRequired) {
     await updateOvertime(date, 0);
-  } else if (workRequired && (existingAttendance?.overtime === undefined || existingAttendance.overtime === 0)) {
-    await updateOvertimeWithWorkedTime(0, date);
+  } else if (workRequired) {
+    await bookingService.updateDailyOvertime(date);
   }
 };
 

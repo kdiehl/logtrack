@@ -62,7 +62,7 @@ class BookingService {
     await this.updateDailyOvertime(booking.date);
   }
 
-  private async updateDailyOvertime(date: string) {
+  public async updateDailyOvertime(date: string) {
     const bookings = await db.bookings.where({ date }).toArray();
     const totalWorkedTime = this.calculateTotalWorkedTime(bookings);
     await updateOvertimeWithWorkedTime(totalWorkedTime, date);
